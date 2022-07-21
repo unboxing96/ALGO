@@ -1,21 +1,16 @@
-def jjak(num):
-    jj = list(map(int, str(num))) # 돌고 있는 숫자 분해 후 리스트
-    jj_result = 0
-    for i in jj:
-        if (i == 3) or (i == 6) or (i == 9):
-            jj_result += 1
-    
-    return jj_result
-
+# 정수 N을 받는다
 T = int(input())
-result = []
-
-for num in range(1, T+1):
-
-    if jjak(num):
-        result.append("-" * jjak(num))  
+# 1부터 T까지 반복한다
+for numbers in range(1, T+1): #1, 2, 3, 4, ...
+    # str(num)을 반복한다.
+    cnt = 0
+    for num in str(numbers): #"1", "2", ... "13"
+        # str(num) 반복문의 요소가 in "369"하면 cnt += 1
+        if num in "369":
+            cnt += 1
+    if cnt:
+        # True: "-" * cnt 출력
+        print("-" * cnt, end=" ")
     else:
-        result.append(num)
-
-for k in result:
-    print(k, end=" ")
+        # False: 요소 출력
+        print(numbers, end=" ")
