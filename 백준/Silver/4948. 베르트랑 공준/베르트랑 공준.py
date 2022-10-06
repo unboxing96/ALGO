@@ -1,16 +1,24 @@
-def getPrimaryNum_Eratos(N):
-    nums = [True] * (N)
-    for i in range(2, int(N**0.5) + 1):
-        if nums[i] == True:
-            for j in range(i+i ,N, i):
-                nums[j] = False
-    return [i for i in range(2, N) if nums[i] == True]
+import sys
+
+def eratos(n):
+    sieve = [1] * (n + 1)
+
+    for i in range(2, int(n ** 0.5) + 1):
+        if sieve[i]:
+            for j in range(i * 2, n + 1, i):
+                sieve[j] = 0
+
+    return sum([1 for i in range(2, n + 1) if sieve[i] and i > n/2])
+
+
+def solve(n):
+    return eratos(2*n)
+
 
 while True:
-    N = int(input())
+    n = int(sys.stdin.readline())
     
-    if N == 0:
+    if n == 0:
         break
-    prime_list = getPrimaryNum_Eratos(2*N + 1)
-    answer_list = [num for num in prime_list if num > N]
-    print(len(answer_list))
+    
+    print(solve(n))
