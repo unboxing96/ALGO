@@ -41,6 +41,6 @@ for i in range(n):
             if data[i][j] != data[nx][ny]:
                 data[nx][ny], data[i][j] = data[i][j], data[nx][ny]
                 ans = max(ans, count_candy())
-                data[i][j], data[nx][ny] = data[nx][ny], data[i][j]
+                data[nx][ny], data[i][j] = data[i][j], data[nx][ny]
 
 print(ans)
