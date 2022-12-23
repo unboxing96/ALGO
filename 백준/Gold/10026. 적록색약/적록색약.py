@@ -1,46 +1,62 @@
-import sys
-sys.setrecursionlimit(10000)
 
-def dfs(x, y):
+from collections import deque
+
+
+def bfs(x, y):
     # 방문한 문자 저장
     now = graph[x][y]
 
     # 방문 처리
     graph[x][y] = 0
 
-    for i in range(4):
-        nx = x + dx[i]
-        ny = y + dy[i]
+    q = deque()
+    q.append((x, y))
 
-        if nx < 0 or nx >= n or ny < 0 or ny >= n:
-            continue
+    while q:
+        x, y = q.popleft()
 
-        if graph[nx][ny] == 0:
-            continue
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
 
-        if graph[nx][ny] == now:
-            dfs(nx, ny)
+            if nx < 0 or nx >= n or ny < 0 or ny >= n:
+                continue
+
+            if graph[nx][ny] == 0:
+                continue
+
+            if graph[nx][ny] == now:
+                q.append((nx, ny))
+                graph[nx][ny] = 0
 
 
-def new_dfs(x, y):
+def new_bfs(x, y):
     # 방문한 문자 저장
     now = new_graph[x][y]
 
     # 방문 처리
     new_graph[x][y] = 0
 
-    for i in range(4):
-        nx = x + dx[i]
-        ny = y + dy[i]
+    q = deque()
+    q.append((x, y))
 
-        if nx < 0 or nx >= n or ny < 0 or ny >= n:
-            continue
+    while q:
 
-        if new_graph[nx][ny] == 0:
-            continue
+        x, y = q.popleft()
 
-        if new_graph[nx][ny] == now:
-            new_dfs(nx, ny)
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+
+            if nx < 0 or nx >= n or ny < 0 or ny >= n:
+                continue
+
+            if new_graph[nx][ny] == 0:
+                continue
+
+            if new_graph[nx][ny] == now:
+                q.append((nx, ny))
+                new_graph[nx][ny] = 0
 
 
 n = int(input())
@@ -61,11 +77,11 @@ dy = [0, 0, -1, 1]
 for i in range(n):
     for j in range(n):
         if graph[i][j] != 0:
-            dfs(i, j)
+            bfs(i, j)
             result += 1
 
         if new_graph[i][j] != 0:
-            new_dfs(i, j)
+            new_bfs(i, j)
             new_result += 1
 
 print(result, new_result)
