@@ -1,11 +1,10 @@
 a, b = map(int, input().split())
 
 data = []
-cnt = 1
+data2 = []
 
-while len(data) < b:
-    for i in range(cnt):
-        data.append(cnt)
-    cnt += 1
+for i in range(1, b + 1):
+    data.extend([i] * i)
+    data2.append([i] * i)
 
-print(sum(data[a-1:b]))
+print(sum(data[a - 1 : b]))
