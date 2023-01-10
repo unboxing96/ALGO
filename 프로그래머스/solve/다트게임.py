@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 10을 다른 문자로 교체
 # dartResult 반복하다가,
 # isnumberic()으로 숫자 만나면,
@@ -53,3 +54,12 @@ def solution(dartResult):
 
 dartResult = "1D2S#10S"
 print(solution(dartResult))
+=======
+def solution(dartResult):
+    answer = 0
+    return answer
+
+
+dartResult = "1S2D*3T"
+print(solution(dartResult))
+>>>>>>> 18db6b7e1da439edb1d384f6014e540a2256fafb
