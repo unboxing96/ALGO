@@ -1,6 +1,8 @@
+
 from collections import deque
 
 n, m = map(int, input().split())
+
 graph = [[] for _ in range(n + 1)]
 
 for _ in range(m):
@@ -9,25 +11,25 @@ for _ in range(m):
     graph[b].append(a)
 
 
-def bfs(graph, start):
-    num = [0] * (n + 1)
+def bfs(start):
+    cnt = [0] * (n + 1)
     visited = [start]
     q = deque()
     q.append(start)
 
     while q:
-        a = q.popleft()
-        for i in graph[a]:
+        qq = q.popleft()
+        for i in graph[qq]:
             if i not in visited:
-                num[i] = num[a] + 1
-                visited.append(i)
-                q.append(i)
+                visited.append(i)  # 방문 처리
+                cnt[i] = cnt[qq] + 1  # 거리 계산
+                q.append(i)  # 큐에 추가
 
-    return sum(num)
+    return sum(cnt)
 
 
 result = []
 for i in range(1, n + 1):
-    result.append(bfs(graph, i))
+    result.append(bfs(i))
 
 print(result.index(min(result)) + 1)
