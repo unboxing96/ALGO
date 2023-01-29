@@ -1,12 +1,11 @@
-T = int(input())
-moneys = [25, 10, 5, 1]
-count = [0] * 4
+n = int(input())
 
-for i in range(T):
-    C = int(input())
+coins = [25, 10, 5, 1]
 
-    for j in range(len(moneys)):
-        count[j] = C // moneys[j]
-        C = C % moneys[j]
-
-    print(' '.join(map(str, count)))
+for i in range(n):
+    target = int(input())
+    cnt = []
+    for c in coins:
+        cnt.append(int(target // c))
+        target %= c
+    print(*cnt, sep=" ")
