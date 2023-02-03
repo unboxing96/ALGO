@@ -15,7 +15,7 @@ def solution(users, emoticons):
             for i in range(len(candi)):
                 if user[0] <= candi[i]:  # user가 정한 할인율 이상
                     # 금액에 더해줌
-                    user_tmp[1] += emoticons[i] * ((100 - candi[i]) / 100)
+                    user_tmp[1] += emoticons[i] * ((100 - candi[i])) / 100
 
             if user[1] <= user_tmp[1]:  # user가 정한 금액 이상
                 user_tmp[0] = 1  # 톡플러스 가입
@@ -23,7 +23,7 @@ def solution(users, emoticons):
 
             # 해당 candi 리스트에 값 더해줌
             candi_tmp[0] += user_tmp[0]
-            candi_tmp[1] += int(user_tmp[1])
+            candi_tmp[1] += user_tmp[1]
 
         # candi 하나 반복 끝나면, 정답 리스트에 append
         ans.append(candi_tmp)
