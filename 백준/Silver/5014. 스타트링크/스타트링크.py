@@ -1,4 +1,3 @@
-
 from collections import deque
 
 
@@ -14,9 +13,10 @@ def bfs():
             return visited[g] - 1
 
         for nx in [x + u, x - d]:
-            if 0 < nx <= f and not visited[nx]:
-                visited[nx] = visited[x] + 1
-                q.append(nx)
+            if 0 < nx <= f:
+                if not visited[nx]:
+                    visited[nx] = visited[x] + 1
+                    q.append(nx)
     if visited[g] == 0:
         return "use the stairs"
 
