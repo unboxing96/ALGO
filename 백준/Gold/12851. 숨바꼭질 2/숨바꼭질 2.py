@@ -20,7 +20,7 @@ def bfs(n, k):
 
         for nx in [x - 1, x + 1, x * 2]:
             if 0 <= nx < 100001:
-                if not visited[nx] or visited[nx] >= visited[x] + 1:
+                if not visited[nx] or visited[nx] == visited[x] + 1:
                     visited[nx] = visited[x] + 1
                     q.append(nx)
 
