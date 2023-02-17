@@ -1,11 +1,17 @@
-
 def solution(n, arr1, arr2):
 
-    answer = []
+    new = []
     for i in range(n):
-        temp = bin(arr1[i] | arr2[i])[2:]
-        temp = temp.rjust(n, "0")
-        for r in (("1", "#"), ("0", " ")):
-            temp = temp.replace(*r)
-        answer.append(temp)
-    return answer
+        new.append(arr1[i] | arr2[i])
+
+    last = []
+    for i in range(n):
+        last.append(bin(new[i])[2:].rjust(n, "0"))
+
+    result = []
+    for i in range(n):
+        res = last[i].replace("1", "#")
+        res = res.replace("0", " ")
+        result.append(res)
+
+    return result
