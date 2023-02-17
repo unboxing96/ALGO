@@ -1,24 +1,21 @@
 dic = {
-    'zero' : '0',
-    'one' : '1',
-    'two' : '2',
-    'three' : '3',
-    'four' : '4',
-    'five' : '5',
-    'six' : '6',
-    'seven' : '7',
-    'eight' : '8',
-    'nine' : '9'
+    "zero": "0",
+    "one": "1",
+    "two": "2",
+    "three": "3",
+    "four": "4",
+    "five": "5",
+    "six": "6",
+    "seven": "7",
+    "eight": "8",
+    "nine": "9",
 }
 
 
 def solution(s):
-    
-    for key in dic.keys():
-        if key in s:
-            s = s.replace(key, dic[key])
 
-    answer = int(s)
-    return answer
+    for d in dic:
+        if d in s:
+            s = s.replace(d, dic[d])
 
-
+    return int(s)
