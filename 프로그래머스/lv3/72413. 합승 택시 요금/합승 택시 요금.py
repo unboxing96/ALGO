@@ -1,28 +1,49 @@
+import heapq
+
+
+def dijkstra(n, start, end, graph):
+    distance = [int(1e9) for _ in range(n + 1)]
+
+    q = []
+    heapq.heappush(q, (0, start))
+    distance[start] = 0
+
+    while q:
+        # (거리, 노드)로 저장된 큐에서 pop
+        d, now = heapq.heappop(q)
+
+        # 새롭게 뽑아낸 노드의 거리가, 기존에 저장된 거리보다 오래 걸리면, continue
+        if distance[now] < d:
+            continue
+
+        # 갱신할 가치가 있으면, 해당 노드의 인접 노드를 뽑아서,
+        for next_node, next_cost in graph[now]:
+            # 인접 노드의 가중치 + 뽑아낸 거리가, 기존 저장된 인접 노드 거리보다 빠르면, 갱신
+            cost = d + next_cost
+            if distance[next_node] > cost:
+                distance[next_node] = cost
+                # 인접 노드의 거리, 다음 인접 노드 append
+                heapq.heappush(q, (cost, next_node))
+
+    return distance[end]
+
+
 def solution(n, s, a, b, fares):
 
-    # 거리 초기화
-    INF = int(1e9)
-    dist = [[INF] * (n + 1) for _ in range(n + 1)]
-    answer = INF
+    graph = [[] for _ in range(n + 1)]
 
-    # 자기 자신 0으로 초기화
-    for i in range(1, n + 1):
-        for j in range(1, n + 1):
-            if i == j:
-                dist[i][j] = 0
-
-    # 가중치 초기화
     for i, j, cost in fares:
-        dist[i][j] = dist[j][i] = cost
+        graph[i].append((j, cost))
+        graph[j].append((i, cost))
 
-    # 최소 거리로 초기화
-    for k in range(1, n + 1):
-        for i in range(1, n + 1):
-            for j in range(1, n + 1):
-                dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])
+    result = []
+    for p in range(1, n + 1):
+        if p != s:
+            s_to_p = dijkstra(n, s, p, graph)
+            p_to_a = dijkstra(n, p, a, graph)
+            p_to_b = dijkstra(n, p, b, graph)
+            result.append(s_to_p + p_to_a + p_to_b)
+        else:
+            result.append(dijkstra(n, s, a, graph) + dijkstra(n, s, b, graph))
 
-    for i in range(1, n + 1):
-        cost = dist[s][i] + dist[i][a] + dist[i][b]
-        answer = min(answer, cost)
-
-    return answer
+    return min(result)
