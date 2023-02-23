@@ -1,14 +1,13 @@
+
 from collections import deque
 
 n, m = map(int, input().split())
 graph = [list(map(int, input())) for _ in range(n)]
-visited = [[False] * m for _ in range(n)]
 dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
 
 
 def bfs():
-    visited[0][0] = True
     q = deque()
     q.append((0, 0))
 
@@ -19,11 +18,15 @@ def bfs():
             nx = x + dx[i]
             ny = y + dy[i]
 
-            if 0 <= nx < n and 0 <= ny < m and not visited[nx][ny]:
-                if graph[nx][ny] == 1:
-                    visited[nx][ny] = True
-                    graph[nx][ny] = graph[x][y] + 1
-                    q.append((nx, ny))
+            if nx < 0 or nx >= n or ny < 0 or ny >= m:
+                continue
+
+            if graph[nx][ny] == 0:
+                continue
+
+            if graph[nx][ny] == 1:
+                graph[nx][ny] = graph[x][y] + 1
+                q.append((nx, ny))
 
 
 bfs()
