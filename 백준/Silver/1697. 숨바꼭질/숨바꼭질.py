@@ -1,24 +1,26 @@
 from collections import deque
 
+INF = 100001
+n, k = map(int, input().split())
+graph = [int(1e9)] * INF
+
 
 def bfs():
+    graph[n] = 0
     q = deque()
     q.append(n)
 
     while q:
-        x = q.popleft()
+        v = q.popleft()
 
-        if x == k:
-            return graph[x]
+        if v == k:
+            return graph[k]
 
-        for nx in (x + 1, x - 1, x * 2):
-            if 0 <= nx <= MAX and graph[nx] == 0:
-                graph[nx] = graph[x] + 1
-                q.append(nx)
+        for nv in [v + 1, v - 1, v * 2]:
+            if 0 <= nv < INF:
+                if graph[nv] >= graph[v] + 1:
+                    graph[nv] = graph[v] + 1
+                    q.append(nv)
 
-
-n, k = map(int, input().split())
-MAX = 10**5
-graph = [0] * (MAX + 1)
 
 print(bfs())
