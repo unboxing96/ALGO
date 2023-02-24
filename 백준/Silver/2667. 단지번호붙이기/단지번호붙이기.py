@@ -1,43 +1,35 @@
+
 n = int(input())
-
-num = []
-
-graph = []
-for _ in range(n):
-    graph.append(list(map(int, input())))
-
+graph = [list(map(int, input())) for _ in range(n)]
 dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
 
 
 def dfs(x, y):
+    global cnt
+    graph[x][y] = 0
 
-    if x < 0 or x >= n or y < 0 or y >= n:
-        return False
+    for i in range(4):
+        nx = x + dx[i]
+        ny = y + dy[i]
 
-    if graph[x][y] == 1:
-        global cnt
-        cnt += 1
-        graph[x][y] = 0
-
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            dfs(nx, ny)
-        return True
-    return False
+        if 0 <= nx < n and 0 <= ny < n:
+            if graph[nx][ny] == 1:
+                cnt += 1
+                dfs(nx, ny)
 
 
-cnt = 0
-result = 0
-
+cnt_list = []
+time = 0
 for i in range(n):
     for j in range(n):
-        if dfs(i, j) == True:
-            num.append(cnt)
-            result += 1
-            cnt = 0
+        if graph[i][j] == 1:
+            cnt = 1
+            dfs(i, j)
+            cnt_list.append(cnt)
+            time += 1
 
-num.sort()
-print(result)
-print(*num, sep="\n")
+cnt_list.sort()
+
+print(time)
+print(*cnt_list, sep="\n")
