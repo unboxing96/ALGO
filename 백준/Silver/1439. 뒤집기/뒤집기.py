@@ -1,11 +1,8 @@
-import re
-
 data = input()
 
-zero = re.compile("0+")
-one = re.compile("1+")
+cnt = 0
+for i in range(len(data) - 1):
+    if data[i] != data[i + 1]:
+        cnt += 1
 
-zero_list = zero.findall(data)
-one_list = one.findall(data)
-
-print(min(len(zero_list), len(one_list)))
+print((cnt + 1) // 2)
