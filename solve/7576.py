@@ -21,7 +21,7 @@ dx = [-1, 1, 0, 0]
 dy = [0, 0, -1, 1]
 q = deque()
 
-# draw graph, search graph to find 1 and append to deque 
+# draw graph, search graph to find 1 and append to deque.
 for i in range(n):
     for j in range(m):
         if graph[i][j] == 1:
