@@ -1,55 +1,34 @@
+
 import sys
-
-def push(x):
-    return stack.append(x)
-
-
-def pop():
-    if stack:
-        return stack.pop()
-    else:
-        return -1
-
-
-def size():
-    return len(stack)
-
-
-def empty():
-    if stack:
-        return 0
-    else:
-        return 1
-
-
-def top():
-    if stack:
-        return stack[-1]
-    else:
-        return -1
-
+input = sys.stdin.readline
 
 n = int(input())
 
 stack = []
 
 for _ in range(n):
-    inp = sys.stdin.readline().rstrip()
-    try:
-        com, num = inp.split()
-        num = int(num)
-    except ValueError:
-        com = inp
+    order = input().split()
 
-    # print(f"========={com} & {num}========")
+    if order[0] == "push":
+        stack.append(order[1])
 
-    if com == "push":
-        push(num)
-    elif com == "pop":
-        print(pop())
-    elif com == "size":
-        print(size())
-    elif com == "empty":
-        print(empty())
-    else:
-        print(top())
+    elif order[0] == "top":
+        if stack:
+            print(stack[-1])
+        else:
+            print(-1)
+
+    elif order[0] == "size":
+        print(len(stack))
+
+    elif order[0] == "empty":
+        if stack:
+            print(0)
+        else:
+            print(1)
+
+    elif order[0] == "pop":
+        if stack:
+            print(stack.pop())
+        else:
+            print(-1)
