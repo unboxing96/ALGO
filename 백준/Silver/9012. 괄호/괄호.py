@@ -1,12 +1,12 @@
-T = int(input())
+t = int(input())
 
-for i in range(T):
-    vps = input()
+for _ in range(t):
+    data = input()
+
+    while "()" in data:
+        data = data.replace("()", "")
     
-    while "()" in vps:
-        vps = vps.replace("()", "")
-    
-    if vps:
-        print("NO")
-    else:
+    if not data:
         print("YES")
+    else:
+        print("NO")
