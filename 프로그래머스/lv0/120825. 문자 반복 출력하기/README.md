@@ -1,10 +1,10 @@
 # [level 0] 문자 반복 출력하기 - 120825 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/120825?language=python3) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/120825?language=swift) 
 
 ### 성능 요약
 
-메모리: 10.2 MB, 시간: 0.01 ms
+메모리: 16.2 MB, 시간: 0.01 ms
 
 ### 구분
 
@@ -23,8 +23,8 @@
 <h5>제한사항</h5>
 
 <ul>
-<li>1 ≤ <code>my_string</code> 길이 ≤ 50</li>
-<li>1 ≤ <code>n</code> ≤ 50</li>
+<li>2 ≤ <code>my_string</code> 길이 ≤ 5</li>
+<li>2 ≤ <code>n</code> ≤ 10</li>
 <li>"my_string"은 영어 대소문자로 이루어져 있습니다.</li>
 </ul>
 
