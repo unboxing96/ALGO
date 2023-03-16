@@ -1,14 +1,12 @@
-N = int(input())
+n = int(input())
+dict = {}
 
-dic = {}
-for tc in range(N):
-    
+for _ in range(n):
     num = int(input())
-    
-    if dic.get(num, 0):
-        dic[num] += 1
+    if dict.get(num, 0):
+        dict[num] += 1
     else:
-        dic[num] = 1
+        dict[num] = 1
 
-dic = sorted(dic.items(), key = lambda x : (-x[1], x[0]))
-print(dic[0][0])
+MAX = max(dict.values())
+print(sorted(dict.items(), key=lambda x : (-x[1], x[0]))[0][0])
