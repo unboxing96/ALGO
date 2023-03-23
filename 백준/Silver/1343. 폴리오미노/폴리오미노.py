@@ -1,10 +1,9 @@
-board = input()
+data = input()
 
-board = board.replace("XXXX", "AAAA")
-board = board.replace("XX", "BB")
+data = data.replace("XXXX", "AAAA")
+data = data.replace("XX", "BB")
 
-if 'X' in board:
+if "X" in data:
     print(-1)
-    
 else:
-    print(board)
+    print(data)
