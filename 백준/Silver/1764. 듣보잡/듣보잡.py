@@ -1,16 +1,16 @@
-N, M = map(int, input().split())
 
-a = set()
-for i in range(N):
-    a.add(input())
+n, m = map(int, input().split())
 
-b = set()
-for i in range(M):
-    b.add(input())
+듣도 = set()
+보도 = set()
 
-result = sorted(list(a & b))
+for _ in range(n):
+    듣도.add(input())
+
+for _ in range(m):
+    보도.add(input())
+
+result = sorted(list(듣도 & 보도))
 
 print(len(result))
-
-for i in result:
-    print(i)
+print(*result, sep="\n")
