@@ -1,26 +1,21 @@
-import sys
-from collections import Counter
+import collections
 
-word = list(map(str, sys.stdin.readline().strip()))
-word.sort()
-check = Counter(word)
+word =input()
+check = collections.Counter(word)
 
-cnt = 0 
-center = ""
+cnt = 0
+result = ""
+mid = ""
 
-for i in check:
-    if check[i] % 2 != 0:
+for k, v in list(check.items()):
+    if v % 2 == 1: 
         cnt += 1
-        center += i
-        word.remove(i)
-        
-    if cnt > 1:
-        break
-
-if cnt > 1:
-    print("I'm Sorry Hansoo")
+        mid = k
+        if cnt >= 2: 
+            print("I'm Sorry Hansoo")
+            break
 else:
-    res = ""
-    for i in range(0, len(word), 2):
-        res += word[i]
-    print(res + center + res[::-1])
+    for k, v in sorted(check.items()): 
+        result += (k * (v // 2)) 
+
+    print(result + mid + result[::-1])
