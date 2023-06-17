@@ -1,19 +1,15 @@
-N = int(input())
-N_list = list(map(int, input().split()))
+from collections import defaultdict
 
-M = int(input())
-M_list = list(map(int, input().split()))
+n = int(input())
+n_list = list(map(int, input().split()))
 
+m = int(input())
+m_list = list(map(int, input().split()))
 
-N_dic = {}
-for num in N_list:
-    if N_dic.get(num, 0):
-        N_dic[num] += 1
-    else:
-        N_dic[num] = 1
+cnt_dic = defaultdict(int)
 
-for num in M_list:
-    if N_dic.get(num, 0):
-        print(N_dic[num], end=" ")
-    else:
-        print(0, end=" ")
+for n_elem in n_list:
+    cnt_dic[n_elem] += 1
+
+for m_elem in m_list:
+    print(cnt_dic[m_elem], end=" ")
