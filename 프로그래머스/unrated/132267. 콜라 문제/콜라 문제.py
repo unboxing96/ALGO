@@ -3,10 +3,10 @@ def solution(a, b, n):
     tot = 0
 
     while n >= a:
-        반환 = (n // a) * b
-        나머지 = n % a
+        recycle = (n // a) * b
+        leftover = n % a
 
-        tot += 반환
-        n = 반환 + 나머지
+        tot += recycle
+        n = recycle + leftover
 
     return tot
