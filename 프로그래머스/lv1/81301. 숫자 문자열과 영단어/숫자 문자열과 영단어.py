@@ -1,4 +1,4 @@
-dic = {
+word_dict = {
     "zero": "0",
     "one": "1",
     "two": "2",
@@ -14,8 +14,8 @@ dic = {
 
 def solution(s):
 
-    for d in dic:
-        if d in s:
-            s = s.replace(d, dic[d])
+    for key in word_dict:
+        if key in s:
+            s = s.replace(key, word_dict[key])
 
     return int(s)
