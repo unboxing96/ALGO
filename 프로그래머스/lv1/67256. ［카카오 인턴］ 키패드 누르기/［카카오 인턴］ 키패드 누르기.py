@@ -28,12 +28,13 @@ def solution(numbers, hand):
             r_now = numbers[i]
             route.append("R")
         else:  # numbers[i] in 2580
-            l_calc = abs((keypad[numbers[i]][0]) - keypad[l_now][0]) + abs(
-                (keypad[numbers[i]][1] - keypad[l_now][1])
-            )
-            r_calc = abs((keypad[numbers[i]][0] - keypad[r_now][0])) + abs(
-                keypad[numbers[i]][1] - keypad[r_now][1]
-            )
+            target_x, target_y = keypad[numbers[i]]
+            l_x, l_y = keypad[l_now]
+            r_x, r_y = keypad[r_now]
+
+            l_calc = abs(target_x - l_x) + abs(target_y - l_y)
+            r_calc = abs(target_x - r_x) + abs(target_y - r_y)
+
 
             if l_calc < r_calc:
                 l_now = numbers[i]
