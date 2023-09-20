@@ -1,25 +1,49 @@
+# 풀이 시간: 16:19 ~
+
+# {성격1: 점수, 성격2: 점수, 성격3: 점수, ...}
+# answer_dict에 현재 성격 유형이 없으면 현재 값으로 초기화, 있으면 기존 값에 더하기
+# ["RT", "CF", "JM", "AN"] 배열을 탐색하며, 각 원소의 앞 문자와 뒷 문자의 점수 중에 높은 것을 answer에 추가하기
+
+from collections import defaultdict
+
+answer_string = ["RT", "CF", "JM", "AN"]
+answer_dict = defaultdict(int)
+
 def solution(survey, choices):
-    # 성격 유형별 점수를 저장할 딕셔너리 초기화
-    scores = {"R" : 0,"T" : 0,"C" : 0,"F" : 0,"J" : 0,"M" : 0,"A" : 0,"N" : 0 }
-
-    # 각 설문 조사의 응답에 따라 해당하는 성격 유형에 점수 추가
-    for pers, choice in zip(survey,choices):
-        if choice > 4:     
-            scores[pers[1]] += choice - 4
-        elif choice < 4:   
-            scores[pers[0]] += 4 - choice
-
-    # 결과 문자열 초기화
-    result = ''
-
-    # 성격 유형별로 점수를 비교하고, 더 높은 점수를 가진 성격 유형을 결과 문자열에 추가
-    # 같은 점수라면 사전 순서가 빠른 것을 추가
-    pers_types = list(scores.items())
-
-    for i in range(0, len(pers_types), 2):
-        if pers_types[i][1] < pers_types[i+1][1]:
-            result += pers_types[i+1][0]
-        else:
-            result += pers_types[i][0]
+    answer = ''
     
-    return result
+    # score_dict에 점수 업데이트 하기
+    for i in range(len(survey)):
+        survey_elem = survey[i] # AN
+        
+        # 선택 분석
+        score = choices[i]
+        
+        # 앞 문자를 선택한 경우
+        if score <= 3:
+            score_to_add = 4 - score
+            
+            # 앞 문자
+            answer_dict[survey_elem[0]] += score_to_add # 더하기
+        
+        # 뒷 문자를 선택한 경우
+        if score >= 5:
+            score_to_add = score - 4
+            
+            # 뒷 문자
+            answer_dict[survey_elem[1]] += score_to_add #더하기
+        
+    # 결과 출력하기
+    for i in range(len(answer_string)):
+        answer_string_elem = answer_string[i]
+
+        if answer_dict[answer_string_elem[0]] > answer_dict[answer_string_elem[1]]:
+            answer += answer_string_elem[0]
+            
+        elif answer_dict[answer_string_elem[0]] < answer_dict[answer_string_elem[1]]:
+            answer += answer_string_elem[1]
+        
+        else:
+            answer += sorted(answer_string_elem)[0]
+    
+    return answer
