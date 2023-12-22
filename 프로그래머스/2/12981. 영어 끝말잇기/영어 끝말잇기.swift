@@ -32,9 +32,6 @@ func solution(_ n:Int, _ words:[String]) -> [Int] {
             // (몫은 += 1, 나머지가 0인 경우에는 몫 그대로 || 나머지: n인 것으로)
             // 누구인지: 나머지
             // 그의 몇 번째 차례인지: 몫
-            if remainder == 0 {
-                remainder = n
-            }
             answer = [remainder, mod]
             return answer
         }
