@@ -1,26 +1,24 @@
 import Foundation
 
-func recursion(_ n: Int, _ pos: Int64) -> Int {
-    if n == 1 {
-        return pos <= 2 ? Int(pos) : Int(pos) - 1
-    }
-
-    let base = Int64(pow(5.0, Double(n - 1)))
-    let a = pos / base
-    let b = pos % base
-    var cnt = 0
-
-    if a <= 1 {
-        cnt = Int(pow(4.0, Double(n - 1))) * Int(a) + recursion(n - 1, b)
-    } else if a == 2 {
-        cnt = 2 * Int(pow(4.0, Double(n - 1)))
-    } else {
-        cnt = Int(pow(4.0, Double(n - 1))) * (Int(a) - 1) + recursion(n - 1, b)
-    }
-
-    return cnt
+func solution(_ n:Int, _ l:Int64, _ r:Int64) -> Int {
+    return f(n, r) - f(n, l - 1)
 }
 
-func solution(_ n: Int, _ l: Int64, _ r: Int64) -> Int {
-    return recursion(n, r) - recursion(n, l - 1)
+func f(_ n: Int, _ k: Int64) -> Int {
+    
+    if n == 1 {
+        return Int(k <= 2 ? k : k - 1)
+    }
+    
+    let div = Int(k) / Int(pow(5.0, Double(n - 1)))
+    let mod = Int(k) % Int(pow(5.0, Double(n - 1)))
+    let mul = Int(pow(4.0, Double(n - 1)))
+    
+    if div < 2 {
+        return mul * div + f(n-1, Int64(mod))
+    } else if div == 2 {
+        return mul * div
+    } else {
+        return mul * (div - 1) + f(n-1, Int64(mod))
+    }
 }
