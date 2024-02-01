@@ -10,8 +10,10 @@ func find(_ x: Int, _ rootArr: inout [Int]) -> Int {
 func union(_ x: Int, _ y: Int, _ rootArr: inout [Int]) {
     let rootX = find(x, &rootArr)
     let rootY = find(y, &rootArr)
-    if rootX != rootY {
+    if rootX < rootY {
         rootArr[rootY] = rootX
+    } else {
+        rootArr[rootX] = rootY
     }
 }
 
