@@ -14,4 +14,9 @@ for s in string:
         int_arr.append(int(s))
 
 str_arr.sort()
-print("".join(str_arr) + str(sum(int_arr)))
+
+result = "".join(str_arr)
+if int_arr:
+    result += str(sum(int_arr))
+
+print(result)
