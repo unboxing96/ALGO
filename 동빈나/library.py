@@ -1,6 +1,8 @@
-import math
+import sys
+sys.setrecursionlimit(10 ** 9)
 
-def lcm(a, b):
-    return a * b // math.gcd(a, b)
+def recursion(i):
+    print(f"recusion {i}")
+    recursion(i + 1)
 
-print(lcm(21, 14))
+recursion(1)
