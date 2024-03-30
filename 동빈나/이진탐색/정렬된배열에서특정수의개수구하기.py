@@ -2,8 +2,8 @@ import sys
 sys.stdin = open("정렬된배열에서특정수의개수구하기.txt", "r")
 
 
-n, x = map(int, input().split())
-array = list(map(int, input().split()))
+# n, x = map(int, input().split())
+# array = list(map(int, input().split()))
 
 # from bisect import bisect_left, bisect_right
 
