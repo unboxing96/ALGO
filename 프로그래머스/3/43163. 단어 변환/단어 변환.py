@@ -27,12 +27,13 @@
 
 def solution(begin, target, words):
     
+    INF = int(1e9)
+    min_depth = [INF]
     visited = [False] * (len(words))
-    min_depth = [int(1e9)]
     
     dfs(begin, target, words, visited, 0, min_depth)
     
-    return min_depth[0] if min_depth[0] != int(1e9) else 0
+    return min_depth[0] if min_depth[0] != INF else 0
 
 
 def checkAvailability(node, word):
@@ -55,11 +56,8 @@ def dfs(node, target, words, visited, depth, min_depth):
         
         if checkAvailability(node, word): # 한 글자만 차이나는지 확인
             visited[idx] = True
-            dfs(word, target, words, visited[:], depth+1, min_depth)
+            dfs(word, target, words, visited, depth+1, min_depth)
             visited[idx] = False
-
-        
-    
     
     
     
