@@ -10,19 +10,16 @@
 
 
 def solution(phone_book):
-    phone_book.sort()
     dic = {}
     
     for pb in phone_book:
-        if pb in dic:  # 'try' 대신 'if'를 사용하여 사전에 키가 존재하는지 확인
-            return False
-        
+        dic[pb] = 1
+    
+    for pb in phone_book:
         tmp = ""
         for pb_chr in pb:
             tmp += pb_chr
-            if tmp in dic:  # 여기서도 동일하게 'if' 사용
+            if tmp in dic and tmp != pb:  # 여기서도 동일하게 'if' 사용
                 return False
-                
-        dic[pb] = True  # 단어를 사전에 추가
     
     return True
