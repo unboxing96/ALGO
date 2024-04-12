@@ -10,13 +10,16 @@
 # 피봇을 기준으로 큰 값과 작은 값을 계산한다.
 # 피봇을 적당히 옮겨서 h의 최댓값을 구한다.
 
+
 def solution(citations):
     citations.sort()
     n = len(citations)
     h_index = 0
     
     for i, citation in enumerate(citations):
-        h = min(citation, n - i)  # 피봇값 계산
-        h_index = max(h_index, h)  # h-index 갱신
+        h = min(citation, n - i)
+        h_index = max(h_index, h)
     
     return h_index
+
+
