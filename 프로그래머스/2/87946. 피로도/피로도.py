@@ -8,26 +8,48 @@
 # 최대 길이는 8이므로, 가능한 순열의 수는 8! ~= 40,000
 # O(N ** 2)으로 작성하면 1,600,000,000 이어서 안 될 것 같지만, 프로그래머스니까 해보자 !
 
-from itertools import permutations
+# from itertools import permutations
+
+# def solution(k, dungeons):
+#     answer = -1
+    
+#     perms = list(permutations(dungeons, len(dungeons)))
+    
+#     for perm in perms:
+#         tmp = k
+#         cnt = 0
+#         for need, use in perm:
+#             if tmp >= need:
+#                 tmp -= use
+#                 cnt += 1
+#             else:
+#                 break
+        
+#         answer = max(answer, cnt)
+    
+#     return answer
+
 
 def solution(k, dungeons):
-    answer = -1
     
-    perms = list(permutations(dungeons, len(dungeons)))
-    
-    for perm in perms:
-        tmp = k
-        cnt = 0
-        for need, use in perm:
-            if tmp >= need:
-                tmp -= use
-                cnt += 1
-            else:
-                break
-        
+    def dfs(k, cnt, dungeons):
+        nonlocal answer
         answer = max(answer, cnt)
+        
+        for i in range(len(dungeons)):
+            if k >= dungeons[i][0] and not visited[i]:
+                visited[i] = True
+                dfs(k - dungeons[i][1], cnt + 1, dungeons)
+                visited[i] = False
+    
+    answer = -1
+    visited = [False] * len(dungeons)
+    dfs(k, 0, dungeons)
     
     return answer
+
+
+
 
 
 
