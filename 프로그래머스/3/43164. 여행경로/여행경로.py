@@ -1,34 +1,41 @@
 # 이해
-# 연결 관계가 적힌 티켓이 주어진다.
-# 티켓의 정보를 모두 입력하면, 한 덩어리로 이루어진 연결 요소이다.
-# 한 시점에서 방문 가능 경로가 여러가지라면, 알파벳 순으로 앞선 것을 선택한다.
-# 모든 국가를 방문하는 경로를 출력하라.
+# 주어진 항공권을 모두 이용
+# 항상 "ICN" 공항에서 출발
+# 가능한 경로가 2개 이상일 경우 알파벳 빠른 순으로 -> 정렬
+# 반드시 모든 도시 방문 가능
 
 # 풀이
-# 모든 경로를 탐색해야 하므로 DFS, BFS 상관 없지 않을까?
-# 백트래킹을 하기 위한 DFS가 더 적합하겠다.
+# DFS 백트래킹 ?
+# DFS
+    # 탈출 조건
+    # 모든 tickets을 방문 (방문할 때마다 cnt)
+        # answer 후보로 추가
 
-def solution(tickets):
-    answer = []
-    visited = [False] * len(tickets)
+# ticket의 [1]에 해당하는 값을 tickets에서 찾는다. 
+    # 해당 노드를 방문하지 않은 경우 dfs(cnt + 1).
+
+answer = []
     
-    dfs("ICN", ["ICN"], tickets, visited, answer)
+def solution(tickets):
+    visited = [False] * len(tickets)
+    dfs(tickets, visited, "ICN", ["ICN"])
     return sorted(answer)[0]
 
-
-def dfs(airport, path, tickets, visited, answer):
-    if len(path) == len(tickets) + 1:
-        answer.append(path)
-        return
+def dfs(tickets, visited, now, candidate):
+    global answer
+    if len(candidate) == len(tickets) + 1:
+        answer.append(candidate)
     
     for i, ticket in enumerate(tickets):
-        if ticket[0] == airport and not visited[i]:
+        if now == ticket[0] and not visited[i]:
             visited[i] = True
-            dfs(ticket[1], path + [ticket[1]], tickets, visited, answer)
+            dfs(tickets, visited, ticket[1], candidate + [ticket[1]])
             visited[i] = False
             
-            
-            
+    
+    
+    
+    
     
     
     
