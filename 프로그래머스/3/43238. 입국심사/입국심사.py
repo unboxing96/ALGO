@@ -24,7 +24,7 @@
         # people += mid // time
 
 def solution(n, times):
-    answer = int(1e9)
+    answer = int(2 ** 63 - 1)
     left = 1
     right = max(times) * n
     
@@ -35,7 +35,7 @@ def solution(n, times):
             people += mid // time
     
         if people >= n:
-            answer = mid
+            answer = min(answer, mid)
             right = mid - 1
 
         else: # people < n:
