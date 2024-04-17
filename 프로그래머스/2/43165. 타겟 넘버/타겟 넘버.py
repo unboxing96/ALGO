@@ -1,22 +1,40 @@
 # 이해
-# numbers에 있는 모든 원소는 부호를 가질 수 있다.
-# 부호를 포함한 모든 원소의 합이 target이 되는 경우의 가짓수를 구하는 문제이다.
+# numbers에 주어진 원소를 더하거나 빼서 target을 완성시키는 방법의 수
 
 # 풀이
-# 모든 경우의 수를 따지는 것이 좋겠다.
-# 무작정 완전 탐색은 O(2^20)이므로 불가하다.
-# DFS로 풀이하자.
-# 재귀적으로 +인 경우와, -인 경우를 동시에 호출하자.
-# 깊이(배열의 index)를 추적하여 numbers의 길이와 같아지는 경우, target을 달성했는지를 검증하고 result += 1 하자.
-# 모든 탐색이 종료되고 result를 return 하자.
+# DFS로 모든 가능성을 탐색한다.
+# 2 ** 20 ~= 1,000,000 이므로 문제 없다.
+# 2 ** 30 ~= 1,000,000,000이므로 2 ** 29까지는 문제 없을 것이다. O(N) 기준.
+
+# numbers를 탐색한다.
+# 1. number를 더하기 한 것을 재귀적으로 호출한다.
+# 2. number를 빼기 한 것을 재귀적으로 호출한다.
+# cnt == target이 되면 answer += 1
+# answer를 return
+
+cnt = 0
 
 def solution(numbers, target):
-    return dfs(0, 0, numbers, target)
+    dfs(numbers, target, 0, 0)
+    return cnt
 
-def dfs(depth, tot_sum, numbers, target):    
-    if depth == len(numbers):
-        if tot_sum == target:
-            return 1
-        return 0
-
-    return dfs(depth + 1, tot_sum + numbers[depth], numbers, target) + dfs(depth + 1, tot_sum - numbers[depth], numbers, target)
+def dfs(numbers, target, current, idx):
+    global cnt
+    if idx == len(numbers):
+        if current == target:
+            cnt += 1
+        return
+    
+    dfs(numbers, target, current + numbers[idx], idx + 1)
+    dfs(numbers, target, current - numbers[idx], idx + 1)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
