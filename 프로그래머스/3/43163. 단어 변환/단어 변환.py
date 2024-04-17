@@ -1,63 +1,48 @@
 # 이해
-# begin을 target으로 만들어야 한다. 둘은 반드시 다르다. 
-# 이동 규칙은 words에서 한 글자만 달라지는 원소를 찾아서 이동할 수 있다.
-# 최소 이동 횟수를 구해야 한다. BFS? DFS인 듯. 깊이를 추적해야 함.
-# 변환할 수 없는 경우에는 0을 return 한다. 모든 word를 이동한 경우 or 이동할 수 있는 word가 없는 경우
+# begin에서 출발해서 target으로 도착하기 까지 최소 단계를 return
+# 이동은 words의 단어로 변환하는 것만 가능하다. 한 글자만 다른 경우 이동이 가능하다.
+# 변환할 수 없는 경우 return 0
 
 # 풀이
-# 방문 처리할 visited 배열을 만든다.
-# 최소 깊이를 저장할 min_depth = int(1e9)
-# dfs로 탐색한다.
-    # 탈출 조건: target를 찾은 경우. 이때 깊이를 갱신한다.
-# 정답을 못 찾은 경우, 이동할 수 있는 word가 없는 경우, target이 word에 없는 경우 0을 반환한다.
+# 최소 단계이나 DFS도 가능할 듯하다.
+# visited를 생성한다.
+# DFS
+    # 탈출 조건은 target이 달성된 경우.
+        # 이동 횟수를 최소값으로 갱신한다.
+    # for word in words
+    # 현재 word를 방문하지 않았다면,
+        # 현재 word를 방문 처리
+        # dfs(cnt + 1)
 
-# dfs(node, visited, depth, min_depth)
-
-# if new_node == target:
-    # min_depth = min(depth, min_depth)
-    # return min_depth
-    
-# words 배열을 탐색한다.
-    # 방문하지 않았고, 현재 노드와 한 글자 차이나는 경우 
-    # 이 노드를 방문처리 한다.
-    # 방문 처리한 배열을 복사한다.
-    # dfs(new_node, 복사한 visited, depth+1)를 재귀적으로 호출한다.
-
-# return 0 # 이동할 수 없는 경우, 다 돌았는데 정답을 못 찾은 경우
+INF = int(1e9)
+answer = INF
 
 def solution(begin, target, words):
-    
-    INF = int(1e9)
-    min_depth = [INF]
-    visited = [False] * (len(words))
-    
-    dfs(begin, target, words, visited, 0, min_depth)
-    
-    return min_depth[0] if min_depth[0] != INF else 0
+    visited = [False] * len(words)
+    dfs(begin, target, words, visited, 0)
+    return 0 if answer == INF else answer
 
-
-def checkAvailability(node, word):
-    cnt = 0
-    for i in range(len(node)):
-        if node[i] != word[i]:
-            cnt += 1
-    return cnt == 1
-    
-
-def dfs(node, target, words, visited, depth, min_depth):
-    
-    if node == target:
-        min_depth[0] = min(min_depth[0], depth)
-        return
+def dfs(begin, target, words, visited, cnt):
+    global answer
+    if begin == target:
+        answer = min(answer, cnt)
     
     for idx, word in enumerate(words):
-        if visited[idx]: # 이미 방문했다면 pass
-            continue
-        
-        if checkAvailability(node, word): # 한 글자만 차이나는지 확인
+        if not visited[idx] and check(begin, word):
             visited[idx] = True
-            dfs(word, target, words, visited, depth+1, min_depth)
+            dfs(word, target, words, visited, cnt + 1)
             visited[idx] = False
+
+def check(a_word, b_word):
+    tmp = 0
+    for i in range(len(a_word)):
+        if a_word[i] != b_word[i]:
+            tmp += 1
+    
+    return True if tmp == 1 else False
+    
+    
+    
     
     
     
