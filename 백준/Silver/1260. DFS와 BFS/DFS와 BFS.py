@@ -1,37 +1,42 @@
-from collections import deque
+def dfs(now):
+    visited[now] = True
+    print(now, end = " ")
 
-n, m, v = map(int, input().split())
-visited = [0] * (n + 1)
-graph = [[] for _ in range(n + 1)]
-for _ in range(m):
-    a, b = map(int, input().split())
-    graph[a].append(b)
-    graph[b].append(a)
+    for next in matrix[now]:
+        if not visited[next]:
+            dfs(next)
 
-def dfs(v):
-    graph[v].sort()
-    visited[v] = 1
-    print(v, end=" ")
-
-    for node in graph[v]:
-        if visited[node] == 0:
-            visited[node] = 1
-            dfs(node)
-
-def bfs(v):
-    q = deque()
-    q.append(v)
-    visited[v] = 0
+def bfs(now):
+    q = deque([now])
+    visited[now] = True
 
     while q:
         x = q.popleft()
-        print(x, end=" ")
+        print(x, end = " ")
 
-        for node in graph[x]:
-            if visited[node] == 1:
-                visited[node] = 0
-                q.append(node)
+        for next in matrix[x]:
+            if not visited[next]:
+                visited[next] = True
+                q.append(next)
 
+
+from collections import deque
+
+n, m, v = map(int, input().split())
+matrix = [[] for _ in range(n + 1)]
+
+for i in range(m):
+    a, b = map(int, input().split())
+    matrix[a].append(b)
+    matrix[b].append(a)
+
+for row in matrix:
+    row.sort()
+
+visited = [False] * (n + 1)
 dfs(v)
+
 print()
+
+visited = [False] * (n + 1)
 bfs(v)
