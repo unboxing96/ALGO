@@ -10,13 +10,36 @@
 # 정렬한다.
 # 순서대로 나오지 않으면 즉시 return 한다.
 
+# def solution(participant, completion):
+    
+#     dic = {}
+#     tmp = 0
+    
+#     for part in participant:
+#         dic[hash(part)] = part
+#         tmp += hash(part)
+    
+#     for comp in completion:
+#         tmp -= hash(comp)
+        
+#     return dic[tmp]
+
+from collections import defaultdict
+
 def solution(participant, completion):
     
-    sorted_participant = sorted(participant)
-    sorted_completion = sorted(completion)
+    dic = defaultdict(int)
     
-    for i in range(len(participant) - 1):
-        if sorted_participant[i] != sorted_completion[i]:
-            return sorted_participant[i]
+    for part in participant:
+        dic[part] += 1
+        
+    for comp in completion:
+        dic[comp] -= 1
     
-    return sorted_participant[-1]
+    
+    answer = ""
+    for key, val in dic.items():
+        if val == 1:
+            answer = key
+    
+    return answer
