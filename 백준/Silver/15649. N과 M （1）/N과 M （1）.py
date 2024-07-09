@@ -1,16 +1,16 @@
-n, m = map(int, input().split())
-ans = []
-
-def check():
-
-    if len(ans) == m:
-        print(*ans, sep=" ")
+def backTracking(arr):
+    if len(arr) == m:
+        print(" ".join(map(str, arr)))
         return
 
-    for i in range(1, n + 1):
-        if i not in ans:
-            ans.append(i)
-            check()
-            ans.pop()
+    for i in range(1, n+1):
+        if not visited[i]:
+            visited[i] = True
+            backTracking(arr + [i])
+            visited[i] = False
 
-check()
+n, m = map(int, input().split())
+arr = []
+visited = [False] * (n + 1)
+
+backTracking(arr)
