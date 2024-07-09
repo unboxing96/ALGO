@@ -1,18 +1,18 @@
-def solve(n, total):
-    global N, target, res
+def solve(i, total):
+    global n, target, res
 
-    if n == N:
+    if i == n:
         if total >= target:
             res = min(res, total - target)
         return
 
-    solve(n + 1, total + heights[n])
-    solve(n + 1, total)
+    solve(i + 1, total + heights[i])
+    solve(i + 1, total)
 
 
 T = int(input())
 for tc in range(T):
-    N, target = map(int, input().split())
+    n, target = map(int, input().split())
     heights = list(map(int, input().split()))
     res = 1e9
     solve(0, 0)
