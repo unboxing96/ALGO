@@ -9,18 +9,44 @@
 # completion을 탐색하며 participantDict에서 대응하는 값을 뺀다.
 # 마지막에 값이 1인 유일한 원소의 key를 출력한다.
 
-def solution(participant, completion):
+# def solution(participant, completion):
     
-    participantDict = {}
+#     participantDict = {}
+#     for part in participant:
+#         if participantDict.get(part, 0):
+#             participantDict[part] += 1
+#         else:
+#             participantDict[part] = 1
+    
+#     for comp in completion:
+#         participantDict[comp] -= 1
+    
+#     for k, v in participantDict.items():
+#         if v == 1:
+#             return k
+
+def solution(participant, completion):
+    answer = ""
+    dict = {}
+    temp = 0
+    
     for part in participant:
-        if participantDict.get(part, 0):
-            participantDict[part] += 1
-        else:
-            participantDict[part] = 1
+        dict[hash(part)] = part
+        temp += int(hash(part))
     
     for comp in completion:
-        participantDict[comp] -= 1
+        dict[hash(comp)] = comp
+        temp -= int(hash(comp))
     
-    for k, v in participantDict.items():
-        if v == 1:
-            return k
+    answer = dict[temp]
+    
+    return answer
+
+
+
+
+
+
+
+
+
