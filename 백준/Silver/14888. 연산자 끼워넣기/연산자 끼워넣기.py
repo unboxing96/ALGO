@@ -1,26 +1,26 @@
 n = int(input())
-arr = list(map(int, input().split()))
-add, sub, mul, div = map(int, input().split()) # 덧, 뺄, 곱, 나
-maxNum = - int(1e9)
+numArr = list(map(int, input().split()))
+opArr = list(map(int, input().split()))
+maxNum = -int(1e9)
 minNum = int(1e9)
 
-def dfs(add, sub, mul, div, sum, idx):
+def dfs(add, sub, mul, div, temp, i):
     global maxNum, minNum
 
-    if idx == n:
-        maxNum = max(maxNum, sum)
-        minNum = min(minNum, sum)
+    if i == n:
+        maxNum = max(maxNum, temp)
+        minNum = min(minNum, temp)
         return
 
     if add:
-        dfs(add - 1, sub, mul, div, sum + arr[idx], idx + 1)
+        dfs(add - 1, sub, mul, div, temp + numArr[i], i + 1)
     if sub:
-        dfs(add, sub - 1, mul, div, sum - arr[idx], idx + 1)
+        dfs(add, sub - 1, mul, div, temp - numArr[i], i + 1)
     if mul:
-        dfs(add, sub, mul - 1, div, sum * arr[idx], idx + 1)
+        dfs(add, sub, mul - 1, div, temp * numArr[i], i + 1)
     if div:
-        dfs(add, sub, mul, div - 1, int(sum / arr[idx]), idx + 1)
+        dfs(add, sub, mul, div - 1, int(temp / numArr[i]), i + 1)
 
-dfs(add, sub, mul, div, arr[0], 1)
+dfs(opArr[0], opArr[1], opArr[2], opArr[3], numArr[0], 1)
 print(maxNum)
 print(minNum)
