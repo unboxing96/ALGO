@@ -1,25 +1,25 @@
-# 이해
-# 어떤 번호가 다른 번호의 접두어인 경우 false
-# 아니라면 true
-# str.startswith() / str.endswith() -> Bool
+# 문제 분석
+# 숫자문자열로 구성된 배열
+# 배열의 어떠한 요소가 다른 요소의 접두사가 된다면 false 아니면 true
+# 배열의 길이가 1,000,000이므로 O(N ** 2)은 곤란하다.
 
-# 풀이
-# phone_book을 탐색하며, 딕셔너리에서 현재 단어가 없다면,
-# 현재 단어를 1글자씩 tmp에 더해가며 딕셔너리가 True가 반환되는 것이 있는지 확인.
-# 있으면 return 없으면 완성된 단어를 True로 갱신
-
+# 접근
+# phone_book을 탐색하며 각 요소를 모두 해시맵에 넣자
+# phone_book을 다시 탐색하며, 각 요소를 중첩 탐색한다.
+    # 요소를 한 글자씩 더해가며 해시맵에 있는지 판단한다.
+    # 해시맵에 있더라도, 두 개의 요소가 정확히 같으면 pass 해야 한다.
 
 def solution(phone_book):
-    dic = {}
+    hashMap = {}
     
-    for pb in phone_book:
-        dic[pb] = 1
+    for phoneNum in phone_book:
+        hashMap[phoneNum] = True
     
-    for pb in phone_book:
-        tmp = ""
-        for pb_chr in pb:
-            tmp += pb_chr
-            if tmp in dic and tmp != pb:  # 여기서도 동일하게 'if' 사용
+    for phoneNum in phone_book:
+        temp = ""
+        for num in phoneNum:
+            temp += num
+            
+            if hashMap.get(temp, 0) and temp != phoneNum:
                 return False
-    
     return True
