@@ -1,57 +1,50 @@
-# 이해
-# 현재 피로도 k
-# dungeons의 원소는 첫 항은 필요 피로도, 두 번쨰 항은 소모 피로도
-# 유저가 탐험할 수 있는 최대 던전 수를 return
+# 문제 분석
+# 각 던전마다 ['최소 필요 피로도', '소모 피로도']가 있다.
+# 하루에 최대한 많은 던전을 방문하고자 한다.
 
-# 풀이
-# dungeons의 모든 순열을 구하고 각 순열을 테스트
-# 최대 길이는 8이므로, 가능한 순열의 수는 8! ~= 40,000
-# O(N ** 2)으로 작성하면 1,600,000,000 이어서 안 될 것 같지만, 프로그래머스니까 해보자 !
+# 접근
+# dungeons의 개수는 최대 8이다.
+# 순열을 구하면 O(N!) -> O(8!) ~= 40,000
+# 가능한 조합을 구하고, 최대 던전 방문 횟수를 계산한다.
 
-# from itertools import permutations
-
-# def solution(k, dungeons):
-#     answer = -1
-    
-#     perms = list(permutations(dungeons, len(dungeons)))
-    
-#     for perm in perms:
-#         tmp = k
-#         cnt = 0
-#         for need, use in perm:
-#             if tmp >= need:
-#                 tmp -= use
-#                 cnt += 1
-#             else:
-#                 break
-        
-#         answer = max(answer, cnt)
-    
-#     return answer
-
+candidates = []
 
 def solution(k, dungeons):
-    
-    def dfs(k, cnt, dungeons):
-        nonlocal answer
-        answer = max(answer, cnt)
-        
-        for i in range(len(dungeons)):
-            if k >= dungeons[i][0] and not visited[i]:
-                visited[i] = True
-                dfs(k - dungeons[i][1], cnt + 1, dungeons)
-                visited[i] = False
+    global candidates
     
     answer = -1
     visited = [False] * len(dungeons)
-    dfs(k, 0, dungeons)
+    permutation(dungeons, visited, [])
     
+    for cand in candidates:
+        tempK = k
+        cnt = 0
+
+        for stage in cand:
+            if tempK >= stage[0]:
+                tempK -= stage[1]
+                cnt += 1
+                
+        answer = max(answer, cnt)
+
     return answer
 
 
+def permutation(dungeons, visited, perm):
+    global candidates
 
-
-
-
-
-
+    if len(perm) == len(dungeons):
+        candidates.append(perm[:])
+        return
+    
+    for i in range(len(dungeons)):
+        if not visited[i]:
+            visited[i] = True
+            perm.append(dungeons[i])
+            permutation(dungeons, visited, perm)
+            perm.pop()
+            visited[i] = False
+        
+        
+        
+        
