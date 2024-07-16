@@ -7,44 +7,66 @@
 # 순열을 구하면 O(N!) -> O(8!) ~= 40,000
 # 가능한 조합을 구하고, 최대 던전 방문 횟수를 계산한다.
 
-candidates = []
+# candidates = []
+
+# def solution(k, dungeons):
+#     global candidates
+    
+#     answer = -1
+#     visited = [False] * len(dungeons)
+#     permutation(dungeons, visited, [])
+    
+#     for cand in candidates:
+#         tempK = k
+#         cnt = 0
+
+#         for stage in cand:
+#             if tempK >= stage[0]:
+#                 tempK -= stage[1]
+#                 cnt += 1
+                
+#         answer = max(answer, cnt)
+
+#     return answer
+
+
+# def permutation(dungeons, visited, perm):
+#     global candidates
+
+#     if len(perm) == len(dungeons):
+#         candidates.append(perm[:])
+#         return
+    
+#     for i in range(len(dungeons)):
+#         if not visited[i]:
+#             visited[i] = True
+#             perm.append(dungeons[i])
+#             permutation(dungeons, visited, perm)
+#             perm.pop()
+#             visited[i] = False
+
+
+visited = []
+answer = -1
+n = 0
 
 def solution(k, dungeons):
-    global candidates
+    global n, visited
     
-    answer = -1
-    visited = [False] * len(dungeons)
-    permutation(dungeons, visited, [])
-    
-    for cand in candidates:
-        tempK = k
-        cnt = 0
-
-        for stage in cand:
-            if tempK >= stage[0]:
-                tempK -= stage[1]
-                cnt += 1
-                
-        answer = max(answer, cnt)
-
+    n = len(dungeons)
+    visited = [0] * n
+    dfs(k, 0, dungeons)
     return answer
 
-
-def permutation(dungeons, visited, perm):
-    global candidates
-
-    if len(perm) == len(dungeons):
-        candidates.append(perm[:])
-        return
+def dfs(k, count, dungeons):
+    global answer
     
-    for i in range(len(dungeons)):
-        if not visited[i]:
-            visited[i] = True
-            perm.append(dungeons[i])
-            permutation(dungeons, visited, perm)
-            perm.pop()
-            visited[i] = False
+    if count > answer:
+        answer = count
         
-        
-        
-        
+    for i in range(n):
+        if k >= dungeons[i][0] and not visited[i]:
+            visited[i] = 1
+            dfs(k - dungeons[i][1], count + 1, dungeons)
+            visited[i] = 0
+    
