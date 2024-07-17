@@ -1,21 +1,25 @@
-# 이해
-# 모음으로 길이 5 이하의 모든 단어가 기록된 사전
-# 해당 사전에서 word가 몇 번째 단어인지 출력
+# 문제 접근
+# 길이별 중복 순열
 
-# 풀이
-# 모음으로 만들 수 있는 모든 조합을 생성 -> 중복 조합이 필요
-# 조합을 정렬
-# return 입력된 단어의 index + 1
-
-from itertools import product
+result = set()
+vowels = "AEIOU"
 
 def solution(word):
-    answer = 0
-    candidates = []
+    for i in range(1, len(vowels) + 1):
+        dfs(vowels, i, 0, "")
+        
+    sorted_result = sorted(result)
+    answer = sorted_result.index(word) + 1
     
-    for i in range(1, 6):
-        candidates.extend(list(map(lambda x: "".join(x), product("AEIOU", repeat = i))))
+    return answer
+
+def dfs(vowels, target_length, index, path):
+    global result
     
-    candidates.sort()
-    
-    return candidates.index(word) + 1
+    # 종료 조건
+    if target_length == len(path):
+        result.add(path)
+        return
+
+    for i in range(index, len(vowels)):
+        dfs(vowels, target_length, 0, path + vowels[i])
