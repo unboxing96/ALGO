@@ -3,16 +3,11 @@ for tc in range(10):
     arr = list(map(int, input().split()))
     tot = 0
 
-    for i in range(2, len(arr) - 2):
-        cur_stick = arr[i]
-        tmp_cnt = 0
-        for cur_top in range(cur_stick, 0, -1):
-            for idx in (i-2, i-1, i+1, i+2):
-                if cur_top <= arr[idx]:
-                    break
-            else:
-                tmp_cnt += 1 # 현재 막대의 현재 높이에 대해 성공
-
-        tot += tmp_cnt
+    for i in range(2, len(arr) - 2): # indexError 방지하기 위해 없는 값은 탐색 안 함
+        cur_height = arr[i] # 현재 탐색 중인 막대
+        nearby = [arr[i-2], arr[i-1], arr[i+1], arr[i+2]] # 주변 막대의 길이
+        max_nearby = max(nearby) # 주변 막대의 길이 중 최댓값
+        if cur_height > max_nearby: # 현재 막대가 주변 막대 길이 중 최댓값보다 길다면 그만큼 조망권을 확보한 것
+            tot += cur_height - max_nearby # 전체에 차이(조망권을 확보한 높이)만큼 더함
 
     print(f"#{tc + 1} {tot}")
