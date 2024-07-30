@@ -1,29 +1,33 @@
+def solution(s):
+    answer = len(s)
+    for i in range(1, len(s)//2 + 1):      # 자르는 길이는 s 길이의 반 까지만 유효
+        last_str = ''               # 자른 문자열
+        repeated = 0                # 중복 횟수
+        compressed = ''             # 압축된 문자열
+        # print(f'cutting by {i} chars')
+        for j in range(0, len(s)+i, i):     
 
-def solution(S):
-    answer = len(S)
-    for block in range(1, len(S) // 2 + 1):
+            # 문자열 중복 시 중복 횟수 추가
+            if last_str == s[j:j+i]:
+                repeated += 1
+                # print('repeated')
 
-        stack = []
-        prev_str = S[:block]
-        cnt = 1
+            # 지난 반복에서 자른 문자열 추가
+            else:
+                if repeated:            
+                    compressed += (str(repeated+1)+last_str)
+                else:
+                    compressed += last_str
+                last_str = s[j:j+i]
+                repeated = 0
+                
+                # print(f'{j}th: {compressed}')
+        # print(f'compressed: {compressed}')
+        
+        # 최소길이 갱신
+        if answer > len(compressed):
+            answer = len(compressed)
 
-        for i in range(block, len(S) + 1, block):
-            cur_str = S[i : i + block]
 
-            if prev_str == cur_str: # 기존 값을 만났을 때
-                cnt += 1
-
-            elif prev_str != cur_str: # 새로운 값을 넣을 때
-                if cnt >= 2:
-                    stack.append(str(cnt))
-                stack.append(prev_str)
-
-                prev_str = cur_str
-                cnt = 1
-        else:
-            stack.append(S[i:])
-
-        tmp_completed_str = "".join(stack)
-        answer = min(answer, len(tmp_completed_str))
 
     return answer
