@@ -42,3 +42,4 @@ for _ in range(T):
     result = my_max([max_horizontal, max_vertical, max_right_diagonal, max_left_diagonal])
 
     print(f'#{tc} {result}')
+
