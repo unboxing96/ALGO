@@ -35,8 +35,8 @@ for _ in range(T):
             if i + j == 99:
                 left_diagonal.append(matrix[i][j])
 
-    max_horizontal = my_max(list(map(sum, horizontal)))
-    max_vertical =  my_max(list(map(sum, vertical)))
+    max_horizontal = my_max(list(map(my_sum, horizontal)))
+    max_vertical =  my_max(list(map(my_sum, vertical)))
     max_right_diagonal = my_sum(right_diagonal)
     max_left_diagonal = my_sum(left_diagonal)
     result = my_max([max_horizontal, max_vertical, max_right_diagonal, max_left_diagonal])
