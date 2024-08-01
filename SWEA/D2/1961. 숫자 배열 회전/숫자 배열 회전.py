@@ -1,41 +1,33 @@
-# 문제 분석
-# 배열을 90도, 180도, 270도 회전한 배열을 출력
-# 출력할 때 형식이 특이하다. arr90, arr180, arr270을 생성하고 출력을 한 번에 하자.
+from copy import deepcopy
 
-# 회전 분석
-    # 기본
-        # 00 01 02
-        # 10 11 12
-        # 20 21 22
-    # 90도: x 위치에 j를 역순으로 {} / y 위치에 i를 정순으로 {}: arr90[i][j] = arr[N - j + 1][i]
-        # 20 10 00 
-        # 21 11 01
-        # 22 12 02
+def rotate(matrix, degree):
+    def rotate_90(matrix):
+        n = len(matrix)
+        rotated = [[0] * n for _ in range(n)]
+        for x in range(n):
+            for y in range(n):
+                rotated[y][n - x - 1] = matrix[x][y]
+        return rotated
 
-def rotate90(n, startArr, targetArr):
-    for i in range(n):
-        for j in range(n):
-            targetArr[i][j] = startArr[n - j - 1][i]
+    time = (degree // 90) % 4
+    rotated = deepcopy(matrix)
+    for _ in range(time):
+        rotated = rotate_90(rotated)
+    return rotated
 
-    return targetArr
+# TestCase 개수
+T = int(input())
 
-testCase = int(input())
-for tc in range(testCase):
+# TestCase만큼 반복
+for tc in range(1, T + 1):
     n = int(input())
+    matrix = [list(map(int, input().split())) for _ in range(n)]
+    rotated90 = rotate(matrix, 90)
+    rotated180 = rotate(matrix, 180)
+    rotated270 = rotate(matrix, 270)
 
-    arr = [list(map(int, input().split())) for _ in range(n)]
-    arr90 = [[0 for _ in range(n)] for _ in range(n)]
-    arr180 = [[0 for _ in range(n)] for _ in range(n)]
-    arr270 = [[0 for _ in range(n)] for _ in range(n)]
-
-    arr90 = rotate90(n, arr, arr90)
-    arr180 = rotate90(n, arr90, arr180)
-    arr270 = rotate90(n, arr180, arr270)
-
-    print(f"#{tc + 1}")
-    for i in range(n):
-        result90 = "".join(map(str, arr90[i]))
-        result180 = "".join(map(str, arr180[i]))
-        result270 = "".join(map(str, arr270[i]))
-        result = f"{result90} {result180} {result270}"
-        print(result)
+    print(f"#{tc}")
+    for line in zip(rotated90, rotated180, rotated270):
+        for row in line:
+            print(*row, sep="", end=" ")
+        print()
