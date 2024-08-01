@@ -7,6 +7,7 @@
 
 
 # 방향 전환이 가능한 위치인지 판단
+# 전환 가능하면 방향 변경
 def check_new_direction(d, matrix, x, y):
     directions = direction_interchange[d]
     for dx, dy in directions:
@@ -21,13 +22,13 @@ def check_new_direction(d, matrix, x, y):
 def move(d, cur_x, cur_y):
     while cur_x < 100:  # 99번째 줄까지 내려가면 종료
         if matrix[cur_x][cur_y] == 2:  # 목표 도착
-            return cur_y  # 도착한 y좌표 반환
+            return True  # 도착 성공하면 True 반환
 
         d = check_new_direction(d, matrix, cur_x, cur_y)
         cur_x += d[0]
         cur_y += d[1]
 
-    return -1  # 도착점에 도달하지 못한 경우
+    return False  # 도착점에 도달하지 못한 경우
 
 
 # 방향 전환을 위한 딕셔너리
@@ -46,7 +47,7 @@ for _ in range(1, T + 1):
     result = -1
     for i in range(100):
         if matrix[0][i] == 1:  # 출발할 수 있는 경우
-            if move((1, 0), 0, i) != -1:  # 도착점에 도달한 경우
+            if move((1, 0), 0, i) == True:  # 도착점에 도달한 경우
                 result = i # 출발 인덱스를 할당
                 break
 
