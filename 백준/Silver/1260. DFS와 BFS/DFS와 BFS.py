@@ -14,13 +14,23 @@ def bfs(v):
                 visited[next_node] = False
                 q.append(next_node)
 
-def dfs(v):
-    visited[v] = True
-    print(v, end = " ")
+def dfs(start):
     
-    for next_node in matrix[v]:
-        if not visited[next_node]:
-            dfs(next_node)
+    # 스택 초기화
+    stack = [start]
+    
+    while stack:
+        node = stack.pop() # 스택에서 노드를 하나 꺼냄
+        
+        if not visited[node]:
+            visited[node] = True
+            print(node, end = " ")
+            
+            # 현재 노드의 인접 노드를 스택에 추가
+            # 인접 노드들을 역순으로 추가하여 탐색 순서를 보장합니다.
+            for neighbor in reversed(matrix[node]):
+                # if not visited[neighbor]:
+                stack.append(neighbor)
 
     
 n, m, v = map(int, input().split())
