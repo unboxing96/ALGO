@@ -1,53 +1,51 @@
+# 문제 분석
+# 6방 탐색: 동서남북상하
+
+# 접근
+# 3차원 배열을 만들어야 한다.
+# dh = [1, -1, 0, 0, 0, 0]
+# dx = [0, 0, 1, -1, 0, 0]
+# dy = [0, 0, 0, 0, -1, 1]
 
 from collections import deque
-import sys
 
 m, n, h = map(int, input().split())
+matrix = [[list(map(int, input().split())) for _ in range(n)] for _ in range(h)]
 
-graph = [
-    [list(map(int, sys.stdin.readline().split())) for _ in range(n)] for _ in range(h)
-]
+dz = [1, -1, 0, 0, 0, 0]
+dx = [0, 0, 1, -1, 0, 0]
+dy = [0, 0, 0, 0, -1, 1]
+q = deque()
 
-dx = [-1, 1, 0, 0, 0, 0]
-dy = [0, 0, -1, 1, 0, 0]
-dz = [0, 0, 0, 0, -1, 1]
+for k in range(h):
+    for i in range(n):
+        for j in range(m):
+            if matrix[k][i][j] == 1:
+                q.append((k, i, j))
 
+while q:
+    z, x, y = q.popleft()
 
-def bfs():
+    for i in range(6):
+        nz = z + dz[i]
+        nx = x + dx[i]
+        ny = y + dy[i]
 
-    while queue:
-        x, y, z = queue.popleft()
+        if 0 <= nz < h and 0 <= nx < n and 0 <= ny < m and matrix[nz][nx][ny] == 0:
+            matrix[nz][nx][ny] = matrix[z][x][y] + 1
+            q.append((nz, nx, ny))
 
-        for i in range(6):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            nz = z + dz[i]
+isZero = False
+max_cnt = 0
 
-            if nx < 0 or nx >= h or ny < 0 or ny >= n or nz < 0 or nz >= m:
-                continue
+for k in range(h):
+    for i in range(n):
+        if isZero in matrix[k][i]:
+            isZero = True
+            break
+        max_cnt = max(max(matrix[k][i]), max_cnt)
 
-            if graph[nx][ny][nz] == 0:
-                queue.append((nx, ny, nz))
-                graph[nx][ny][nz] = graph[x][y][z] + 1
-
-
-queue = deque()
-for a in range(h):
-    for b in range(n):
-        for c in range(m):
-            if graph[a][b][c] == 1:
-                queue.append((a, b, c))
-
-bfs()
-
-answer = 0
-
-for a in graph:
-    for b in a:
-        for c in b:
-            if c == 0:
-                print(-1)
-                exit(0)
-        answer = max(answer, max(b))
-
-print(answer - 1)
+if isZero:
+    print(-1)
+else:
+    print(max_cnt - 1)
