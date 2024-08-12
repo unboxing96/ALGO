@@ -1,4 +1,7 @@
--- 코드를 입력하세요
+# 문제 분석
+# 모든 동물의 아이디와 이름 조회
+# ANIMAL_ID 순으로 정렬
+
 SELECT ANIMAL_ID, NAME
 FROM ANIMAL_INS
 ORDER BY ANIMAL_ID;
