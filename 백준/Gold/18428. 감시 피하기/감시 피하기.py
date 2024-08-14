@@ -1,53 +1,48 @@
-import copy
+n = int(input())
+arr = [list(map(str, input().split())) for _ in range(n)]
 
-def make_wall(cnt):
-    if cnt == 3:
-        return search()
+# 연구소 문제랑 비슷하게 장애물을 3개 모든 경우의수에 세우고 그때 감시를 피할 수 있는지 확인
+# 각 경우마다 T로부터 일직선으로만 탐색, S나 O를 만나면 탐색중지
+
+dx = [-1,1,0,0]
+dy = [0,0,-1,1]
+
+def T_virus():
+    for i in range(n):
+        for j in range(n):
+            if arr[i][j] == 'T':
+                for k in range(4):
+                    nx = i + dx[k]
+                    ny = j + dy[k]
+                    while 0 <= nx < n and 0 <= ny < n:
+                        if arr[nx][ny] == 'O':  # 장애물을 만남
+                            break
+                        if arr[nx][ny] == 'S':  # 학생을 만남
+                            return False
+                        nx += dx[k]
+                        ny += dy[k]
+    return True
+
+cnt = 0
+def search():
+    global cnt
+    if cnt == 3:  # 장애물 3개 세운 경우
+        if T_virus():
+            return True
+        else:
+            return False
 
     for i in range(n):
         for j in range(n):
-            if matrix[i][j] == "X":
-                matrix[i][j] = "O"
-                if make_wall(cnt + 1):
-                    return True # search()가 True를 반환한 경우
-                matrix[i][j] = "X"
-    
-    return False # 끝까지 True를 반환하지 못 한 경우
+            if arr[i][j] == 'X':
+                arr[i][j] = 'O'  # 장애물 세우기
+                cnt += 1
+                if search():
+                    return True
+                cnt -= 1 
+                arr[i][j] = 'X'  # 다시 없애기
 
-def search():
-    new_matrix = copy.deepcopy(matrix)
-
-    for x, y in stack:
-        for i in range(4):
-            nx = x
-            ny = y
-
-            while True:
-                nx += dx[i]
-                ny += dy[i]
-
-                if nx < 0 or ny < 0 or nx >= n or ny >= n:
-                    break
-                if new_matrix[nx][ny] == "O":
-                    break
-                if new_matrix[nx][ny] == "S":
-                    return False # 학생 마주치면 발각
-    return True # 마주치지 못 하면 숨기 성공
-
-
-n = int(input())
-matrix = [list(input().split()) for _ in range(n)]
-visited = [[0] * n for _ in range(n)]
-dx = [1, -1, 0, 0]
-dy = [0, 0, 1, -1]
-stack = []
-
-for i in range(n):
-    for j in range(n):
-        if matrix[i][j] == "T":
-            stack.append((i, j))
-
-if make_wall(0):
-    print("YES")
+if search():
+    print('YES')
 else:
-    print("NO")
+    print('NO')
