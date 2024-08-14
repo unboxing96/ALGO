@@ -29,7 +29,7 @@ for candi in range(n // 2, n + 1):
     
     if tmp_cnt > max_cnt:
         max_cnt = tmp_cnt
-        max_path = tmp_path[:]
+        max_path = tmp_path
 
 print(max_cnt)
 print(*max_path)
