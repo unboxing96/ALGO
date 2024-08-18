@@ -7,9 +7,7 @@ for _ in range(n):
     arr[grade][gender] += 1
 
 for w, m in arr:
-    tot += w // k
-    tot += w % k
-    tot += m // k
-    tot += m % k
+    tot += (w + k - 1) // k 
+    tot += (m + k - 1) // k
 
 print(tot)
