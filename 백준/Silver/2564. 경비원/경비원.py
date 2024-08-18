@@ -3,9 +3,6 @@ width, height = map(int, input().split())
 # 상점의 개수
 n = int(input())
 
-# 경계의 총 길이
-perimeter = 2 * (width + height)
-
 def get_perimeter_position(direction, distance):
     """
     주어진 방향과 거리로 경계선 상의 일차원 위치를 반환합니다.
@@ -29,6 +26,9 @@ for _ in range(n):
 dg_dir, dg_dist = map(int, input().split())
 dg_position = get_perimeter_position(dg_dir, dg_dist)
 
+# 블록의 경계 길이
+perimeter = 2 * (width + height)
+
 # 최단 거리의 합 계산
 total_distance = 0
 for store_pos in store_positions:
@@ -41,4 +41,3 @@ for store_pos in store_positions:
     total_distance += shortest_distance
 
 print(total_distance)
-
