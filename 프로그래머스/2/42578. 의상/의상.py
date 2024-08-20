@@ -1,26 +1,28 @@
-# 이해
-# 패션 조합의 가짓수
-# 하루에 최소 한 개의 의상
-# 한 종류에서는 하나의 옷만 선택
-# 모든 종류를 선택할 수도, 하나의 종류만 선택할 수도, 복수의 종류만 선택할 수도 있다.
+# 문제 분석
+# 서로 다른 조합으로 옷을 입는 가짓수는?
+# 배열은 2차원 행렬로 주어진다
+    # 이름, 종류
+    # 같은 이름은 없다
+    # 최소 한 개의 의상은 입어야 한다
 
-# 풀이
-# from itertools import combinations
-# type별로 카운트 횟수를 딕셔너리에 기록함
-# type에 대한 조합을 구함.
-# 모든 조합에 대하여, type에 대응하는 카운트 횟수를 곱해 answer에 더함.
-# answer 반환.
+# 접근
+# 각 종류마다 "입지 않는다" 경우의 수를 추가하여 모든 가짓수를 곱한다.
+# 전부 입지 않는 경우를 뺀다.
 
 def solution(clothes):
-    answer = 1  # 곱셈을 위해 1부터 시작
-    dic = {}
+    answer = 0
     
-    # 각 옷의 종류별로 개수를 계산
-    for _, type in clothes:
-        dic[type] = dic.get(type, 0) + 1
+    hashMap = {}
     
-    # 각 종류별로 옷을 선택하는 경우의 수 계산 (해당 종류의 옷을 안 입는 경우 포함)
-    for count in dic.values():
-        answer *= (count + 1)  # 해당 종류의 옷을 선택하지 않는 경우도 포함하여 +1
+    for cloth in clothes:
+        name, category = cloth[0], cloth[1]
+        if hashMap.get(category, 0):
+            hashMap[category] += 1
+        else:
+            hashMap[category] = 1
     
-    return answer - 1  # 아무것도 입지 않는 경우의 수 1을 뺌
+    tmp = 1
+    for v in hashMap.values():
+        tmp *= (v + 1)
+    
+    return tmp - 1

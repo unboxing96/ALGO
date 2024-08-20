@@ -1,20 +1,21 @@
-
 n, s = map(int, input().split())
-nums = list(map(int, input().split()))
-
-ans = []
+arr = list(map(int, input().split()))
 cnt = 0
 
-def check(start):
+def backTracking(idx, current_sum):
     global cnt
 
-    if sum(ans) == s and len(ans) > 0:
-        cnt += 1
+    if idx == n:
+        if current_sum == s:
+            cnt += 1
+        return
 
-    for i in range(start, n):
-        ans.append(nums[i])
-        check(i + 1)
-        ans.pop()
+    backTracking(idx + 1, current_sum + arr[idx])
+    backTracking(idx + 1, current_sum)
 
-check(0)
+backTracking(0, 0)
+
+if s == 0:
+    cnt -= 1
+
 print(cnt)

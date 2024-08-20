@@ -1,27 +1,54 @@
-# 이해
-# lost 도난 번호 체육복
-# reserve 여분 체육복
-# reserve는 양 옆 번호에만 빌려줄 수 있다
-# reserve도 도난 당했을 수 있다.
-# 체육 수업을 들을 수 있는 학생의 최댓값을 return
+# 문제
+# 바로 앞 번호 혹은 뒷 번호 학생에게만 체육복을 빌려줄 수 있다.
+# 체육복이 있어야 체육 수업을 들을 수 있다.
+# 최대한 많은 학생이 체육 수업을 들어야 한다.
+# 수업 들을 수 있는 학생의 최댓값 return
 
-# 풀이
-# 도난 당하고 남은 reserve를 구한다. set_reserve = set(reserve) - set(lost)
-# 도난하고 남은 lost를 구한다. set_lost = set(reserve) - set(lost)
-# (1, n+1)의 범위를 탐색하며, lost에 있는 값이라면, lost의 양 옆 범위를 탐색한다.
-    # 양 옆에 범위에 reserve가 있으면 lost와 reserve에서 해당 원소를 삭제한다.
-# 탐색이 종료되고, n - len(lost)를 출력한다.
+# 여벌 체육복을 가져온 학생이 도난 당했다면, 하나만 당한 것.
+# 남은 체육복이 하나이기에, 더 이상 체육복을 빌려줄 수 없다.
+
+# 접근
+# tc #1
+# students      [1, 1, 1, 1, 1]
+# reserve 더하면 [2, 1, 2, 1, 2]
+# lost를 빼면    [2, 0, 2, 0, 2]
+# 뒷 번호에 준다  [2, 1, 1, 1, 1]
+# 앞 번호에 준다  [2, 1, 1, 1, 1] # 받을 사람(0)이 없음.
+# 값이 있는 원소의 개수를 센다.
+
+# tc #2
+# students   [1, 1, 1, 1, 1]
+# reserve    [1, 1, 2, 1, 1]
+# lost       [1, 0, 2, 0, 1]
+# 앞에 준다    [1, 1, 1, 0, 1]
+# 뒤에 준다    [1, 1, 1, 0, 1] # 받은 사람(0)은 있으나, 줄 사람(2)이 없음.
+
+# tc #3
+# students      [1, 1, 1, 1, 1, 1, 1]
+# reserve 더하면 [1, 2, 1, 2, 1, 2, 1]
+# lost를 빼면    [0, 2, 0, 2, 1, 2, 0]
+# 뒷 번호에 준다  [0, 1, 1, 2, 1, 1, 1]
+# 앞 번호에 준다  [0, 1, 1, 2, 1, 1, 1] # 받을 사람(0)이 없음.
+# 값이 있는 원소의 개수를 센다.
+
+# 길이 n만큼 [1]을 반복하는 배열을 생성한다.
+# reserve를 반복하며 더한다. 이때 index - 1을 유념하자.
+# lost를 반복하며 빼준다. 이때 index - 1을 유념하자.
+# 앞 번호에 빌려준다. 현재 인덱스가 2이고, 앞 인덱스가 0인 경우 준다. 1 ~ n - 1까지 진행한다.
+# 뒤 번호에 빌려준다. 현재 인덱스가 2이고, 앞 인덱스가 0인 경우 준다. 0 ~ n - 2까지 진행한다.
+# 값이 있는 원소의 개수를 센다.
 
 def solution(n, lost, reserve):
     
     set_reserve = set(reserve) - set(lost)
     set_lost = set(lost) - set(reserve)
     
-    for num in set_reserve:
-        if num - 1 in set_lost:
-            set_lost.remove(num - 1)
-        elif num + 1 in set_lost:
-            set_lost.remove(num + 1)
+    for elem in set_reserve:
+        if elem - 1 in set_lost:
+            set_lost.remove(elem - 1)
+        
+        elif elem + 1 in set_lost:
+            set_lost.discard(elem + 1)
     
     return n - len(set_lost)
 

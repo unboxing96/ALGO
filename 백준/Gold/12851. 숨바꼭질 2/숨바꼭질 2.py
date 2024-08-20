@@ -1,30 +1,24 @@
 from collections import deque
 
 n, k = map(int, input().split())
+visited = [False] * 100001
+fast, way = 1e9, 0
+q = deque([(n, 0)])
 
-visited = [0] * 100001
-cnt = 0
+while q:
+    idx, time = q.popleft()
+    visited[idx] = True
 
+    if idx == k and time <= fast:
+        fast = min(fast, time)
+        way += 1
+    
+    if time > fast:
+        break
 
-def bfs(n, k):
-    global cnt
-    visited[n] = 1
-    q = deque()
-    q.append(n)
+    for x in (idx - 1, idx + 1, idx * 2):
+        if x in range(100001) and not visited[x]:
+            q.append((x, time + 1))
 
-    while q:
-        x = q.popleft()
-
-        if x == k:
-            cnt += 1
-
-        for nx in [x - 1, x + 1, x * 2]:
-            if 0 <= nx < 100001:
-                if not visited[nx] or visited[nx] == visited[x] + 1:
-                    visited[nx] = visited[x] + 1
-                    q.append(nx)
-
-
-bfs(n, k)
-print(visited[k] - 1)
-print(cnt)
+print(fast)
+print(way)

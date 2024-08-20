@@ -1,70 +1,61 @@
-# 이해
-# 생성 가능한 소수의 개수를 return
-# 1. 주어진 숫자 카드로 만들 수 있는 조합을 모두 생성. P(7, 1) + P(7, 2), ... P(7, 7) ~= 14,000
-# 2. 숫자 카드의 최대 길이인 9,999,999 까지의 소수를 에라토스테네스의 체로 구함
-# 3. 생성된 조합을 탐색하며, 2번에서 생성한 소수 배열에 있으면 answer += 1
+# 문제 분석
+# numbers에 숫자로 구성된 문자열이 주어진다.
+# numbers의 각 문자를 조합해서 정수를 만들고, 개중에서 소수의 개수를 구하라
 
-# 풀이
-# 수열 생성 함수 def permute(arr, n):
-# 방문 처리를 위한 used 배열 생성 [False] * len(numbers)
-# 탈출 조건: 
-    # if len(arr) == n:
-        # num = int("".join(arr))
-        # permutations.add(num)
-    # else: # 순열 생성 연산: 백트래킹
-        # for i in range(len(numbers)):
-            # if not used[i]:
-                # used[i] = True
-                # permute(arr + [numbers[i]], n)
-                # user[i] = False
+# 접근
+# 일종의 순열이다. 순열의 시간 복잡도는 O(N!). 입력값이 7이므로, 7! == 5,040.
+# 숫자 조합을 찾아내면, 최고값을 기준으로 에라토스테네스의 체를 만든다.
+# 체 배열을 탐색하며, 소수의 개수를 세어 return 한다.
 
+# 순열
+# DFS와 백트래킹
+# 배열의 길이와 같은 visited 배열을 생성한다.
+# 순열을 담을 임시 배열을 만든다. perm = []
+# permutation 함수는 depth 파라미터로 탈출 조건을 만든다.
+    # 모든 원소를 다 썼을 경우 탈출한다.
+# 방문하지 않은 원소인 경우, 방문 처리하고, perm에 추가하고, 재귀 탐색하고, perm에서 pop() 하고, 방문 처리를 취소한다.
+# targetDepth 별로 순열을 구한다.
+
+# 에라토스 테네스의 체
+# 입력된 정수 n까지 소수만 남기고 탈탈 털어내는 체
+# n ** 0.5 까지만 탐색하면, n의 소수 여부를 판별할 수 있다는 것을 유념하자.
+# 범위 내 전체 정수 리스트primeArr를 set 과 range로 생성한다.
+# 전체 정수 범위를 탐색한다.
+# 현재 탐색 중인 정수가, primeArr에 없다면, range로 정수의 배수 배열을 만들어서 primeArr에서 뺀다. (집합 연산으로)
+# 남은 것이 소수 리스트이다.
 
 def solution(numbers):
-    
-    def permute(arr, n):
-        if len(arr) == n:
-            num = int("".join(arr))
-            permutations.add(num)
-        else:
-            for i in range(len(numbers)):
-                if not used[i]:
-                    used[i] = True
-                    permute(arr + [numbers[i]], n)
-                    used[i] = False
-                    
-    def eratos(n):
-        eratos_arr = [True] * (n + 1)
-        eratos_arr[0] = eratos_arr[1] = False
-        
-        for i in range(int(n ** 0.5) + 1):
-            if eratos_arr[i]:
-                for j in range(i * i, n + 1, i):
-                    eratos_arr[j] = False
-        
-        return eratos_arr
-
     answer = 0
-    used = [False] * len(numbers)
-    permutations = set()
+    candidates = set()
+    visited = [False] * len(numbers)
     
     for i in range(1, len(numbers) + 1):
-        permute([], i)
+        permutation(numbers, visited, candidates, [], i, 0)
     
-    prime_arr = eratos(max(permutations))
+    maxNum = max(candidates)
+    primeSet = eratos(maxNum)
     
-    return sum(1 for num in permutations if prime_arr[num])
+    return len(candidates & primeSet)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+def permutation(numbers, visited, candidates, perm, targetDepth, currentDepth):
+    if currentDepth == targetDepth:
+        candidates.add(int("".join(perm)))
+    
+    for i in range(len(numbers)):
+        if not visited[i]:
+            visited[i] = True
+            perm.append(numbers[i])
+            permutation(numbers, visited, candidates, perm, targetDepth, currentDepth + 1)
+            perm.pop()
+            visited[i] = False
+            
+            
+            
+def eratos(target):
+    primeSet = set(range(2, target + 1))
+    
+    for i in range(2, int(target ** 0.5) + 1):
+        if i in primeSet:
+            primeSet -= set(range(2 * i, target + 1, i))
+    
+    return primeSet

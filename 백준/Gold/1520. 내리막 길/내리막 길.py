@@ -1,29 +1,31 @@
-import sys
-sys.setrecursionlimit(10 ** 8)
-input = sys.stdin.readline
+r, c = map(int, input().split())
+graph = [list(map(int, input().split())) for _ in range(r)]
 
-def dfs(sx, sy):
-    # 도착 지점에 도달하면 1(한 가지 경우의 수)를 리턴
-    if sx == m-1 and sy == n-1:
+dp = [[-1] * c for _ in range(r)]
+
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
+
+def dfs(x, y):
+
+    if x == r - 1 and y == c - 1:
         return 1
-
-    # 이미 방문한 적이 있다면 그 위치에서 출발하는 경우의 수를 리턴
-    if dp[sx][sy] != -1:
-        return dp[sx][sy]
     
-    ways = 0
+    if dp[x][y] != -1:
+        return dp[x][y]
+    
+    dp[x][y] = 0
+    
     for i in range(4):
-        nx, ny = sx + dx[i], sy + dy[i]
-        if 0 <= nx < m and 0 <= ny < n and graph[sx][sy] > graph[nx][ny]:
-            ways += dfs(nx, ny)
-    
-    dp[sx][sy] = ways
-    return dp[sx][sy]
+        nx = x + dx[i]
+        ny = y + dy[i]
 
+        if nx < 0 or nx >= r or ny < 0 or ny >= c:
+            continue
 
-m, n = map(int, input().split())
-graph = [list(map(int, input().split())) for _ in range(m)]
-dp = [[-1] * n for _ in range(m)]
-dx, dy = [1,-1,0,0], [0,0,1,-1]
+        if graph[nx][ny] < graph[x][y]:
+            dp[x][y] += dfs(nx, ny)
 
-print(dfs(0,0))
+    return dp[x][y]
+
+print(dfs(0, 0))

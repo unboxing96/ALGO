@@ -1,42 +1,40 @@
-# 이해
-# priorities 배열을 우선순위에 따라 pop() 할 때, 
-# location 위치에 있는 원소가 몇 번째로 pop() 되는지 return
+# 문제 분석
+# priorities 배열은 우선순위(원소의 값은 큰 순서)대로 제거해야 한다.
+# 일종의 원형 큐처럼 동작한다.
+# 현재 배열에서 가장 우선 순위가 높은 원소를 만날 때까지, 앞에서 제거 및 뒤에 추가를 반복한다.
+# location 위치의 원소가 실행되는 순서를 구하라. (위치는 0부터, 순서는 1부터)
 
-# 풀이
-# max_value = max(priorities)
-# priorities_with_hash = [[i, hash(i)] for i in priorities]
-# max_value_hash = priorities_with_hash[location][1]
-# order = 0
-# while len(priorities_with_hash) >= 0:
-    # current = popleft()
-    # current[0] >= max_value, 
-        # if current[1] == max_value_hash:
-            # return order
-        # order += 1
-    # current[0] < max_value:
-        # priorities_with_hash.append(current)
+# 접근
+# priorities 배열을 탐색하면서, [priority, index] 형태의 priorityWithIndex 배열을 생성한다.
+# priorities 배열을 오름차순 정렬한 sortedPriorities 배열을 생성한다.
+# while priorityWithIndex:
+    # top = priorityWithIndex.popleft()
+    # if top[0] == sortedPriorities[-1]: # 정상 실행
+        # cnt += 1
+        # sortedPriorities.pop()
+        # if top[1] == location:
+            # return cnt
+    # else: # 다시 큐에 삽입
+        # priorityWithIndex.append(top)
 
 from collections import deque
-import random
-
-def solution(priorities, location):
-    order = 1
-    priorities_with_hash = deque([[i, random.random()] for i in priorities])
-    max_value = max(priorities)
-    target_hash = priorities_with_hash[location][1]
-    print(priorities_with_hash)
     
-    while len(priorities_with_hash) >= 0:
-        current = priorities_with_hash.popleft()
+def solution(priorities, location):
+    
+    cnt = 0
+    
+    priorityWithIndex = deque()
+    for i in range(len(priorities)):
+        priorityWithIndex.append([priorities[i], i])
         
-        if current[0] >= max_value: 
-            if current[1] == target_hash:
-                return order
-            max_value = max([elem[0] for elem in priorities_with_hash])
-            print(max_value)
-            order += 1
-            
-        else: # current[0] < max_value
-            priorities_with_hash.append(current)
-            
-    return order
+    sortedPriorities = sorted(priorities)
+    
+    while priorityWithIndex:
+        top = priorityWithIndex.popleft() # top = [priority, index]
+        if top[0] == sortedPriorities[-1]: # 정상 실행
+            cnt += 1
+            sortedPriorities.pop()
+            if top[1] == location:
+                return cnt
+        else: # 다시 큐에 삽입
+            priorityWithIndex.append(top)

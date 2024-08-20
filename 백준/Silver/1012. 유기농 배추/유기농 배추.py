@@ -1,15 +1,10 @@
 
 from collections import deque
 
-tc = int(input())
-dx = [-1, 1, 0, 0]
-dy = [0, 0, -1, 1]
-
-
-def bfs(x, y):
-    graph[x][y] = 0
+def bfs(a, b):
     q = deque()
-    q.append((x, y))
+    q.append((a, b))
+    cnt = 1
 
     while q:
         x, y = q.popleft()
@@ -18,25 +13,33 @@ def bfs(x, y):
             nx = x + dx[i]
             ny = y + dy[i]
 
-            if 0 <= nx < n and 0 <= ny < m:
-                if graph[nx][ny] == 1:
-                    graph[nx][ny] = 0
-                    q.append((nx, ny))
+            if 0 <= nx < n and 0 <= ny < m and matrix[nx][ny] == 1:
+                matrix[nx][ny] = -1
+                q.append((nx, ny))
+                cnt += 1
+    
+    return cnt
 
 
-for _ in range(tc):
-    n, m, e = map(int, input().split())
-    graph = [[0] * m for _ in range(n)]
+T = int(input())
+dx = [1, -1, 0, 0]
+dy = [0, 0, 1, -1]
 
-    for _ in range(e):
-        a, b = map(int, input().split())
-        graph[a][b] = 1
+for tc in range(T):
+    m, n, k = map(int, input().split())
+    matrix = [[0] * m for _ in range(n)]
 
-    time = 0
+    for _ in range(k):
+        b, a = map(int, input().split())
+        matrix[a][b] = 1
+
+    result = 0
     for i in range(n):
         for j in range(m):
-            if graph[i][j] == 1:
-                bfs(i, j)
-                time += 1
+            if matrix[i][j] == 1:
+                # if dfs(i, j, 1):
+                #     result += 1
+                if bfs(i, j):
+                    result += 1
 
-    print(time)
+    print(result)

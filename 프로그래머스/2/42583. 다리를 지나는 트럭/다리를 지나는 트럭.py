@@ -1,49 +1,43 @@
-# 이해
-# bridge_length는 다리에 올라갈 수 있는 트럭 수. 동시에 트럭이 이동해야 하는 길이.
-# weight는 다리가 버틸 수 있는 무게. 트럭의 개수가 bridge_length보다 적어도, 무게 기준을 만족해야 한다.
-# 모든 트럭이 다리를 건너는 데까지 걸리는 시간을 return
+# 문제 분석
+# bridge_length 길이의 다리가 있다.
+# 다리는 weight 이하의 무게까지 버틸 수 있다.
+# 모든 트럭이 다리를 건너는 데에 소요되는 시간을 구하라
 
-# 풀이
-# 정석적인 원형 큐로 풀이해보자
-# bridge = deque([])
-# bridge.append(truck_weights[0])
-# bridge_sum += truck_weights[0]
-# time = 0
-
-# while True:
-    # time += 1
-    # out_truck = bridge.popleft()
-    # bridge_sum -= out_truck
-    # if out_truckt > 0 and len(truck_weights) == 0:
-        # return time
-    
-    # if bridge_sum + truck_weights[0] < weight:
-        # in_truck = truck_weights.popleft()
-        # bridge.append(in_truck)
-        # bridge_sum += in_truck
-        
-    # else:
-        # bridge.append(out_truck)
+# 접근
+# bridge_length 길이의 배열을 선언한다.
+# currentWeight에 현재 다리 위에 올라간 트럭의 총 무게를 저장한다.
+# time을 선언한다.
+# 
 
 from collections import deque
-        
+
 def solution(bridge_length, weight, truck_weights):
     
     bridge = deque([0] * bridge_length)
-    truck_weights = deque(truck_weights)
-    bridge_sum = 0
+    truck_weights = deque(reversed(truck_weights))
+    truckCount = len(truck_weights)
+    currentWeight = 0
     time = 0
-
-    while truck_weights or bridge_sum > 0:
+    done = []
+    
+    while True:
         time += 1
-        out_truck = bridge.popleft()
-        bridge_sum -= out_truck
-
-        if truck_weights and bridge_sum + truck_weights[0] <= weight:
-            in_truck = truck_weights.popleft()
-            bridge.append(in_truck)
-            bridge_sum += in_truck
+        now = bridge.popleft()
+        
+        if now:
+            done.append(now)
+            currentWeight -= now
+            if len(done) == truckCount:
+                return time
+        
+        if truck_weights and currentWeight + truck_weights[-1] <= weight:
+            nowTruck = truck_weights.pop()
+            currentWeight += nowTruck
+            bridge.append(nowTruck)
         else:
             bridge.append(0)
-    
-    return time
+
+
+
+
+

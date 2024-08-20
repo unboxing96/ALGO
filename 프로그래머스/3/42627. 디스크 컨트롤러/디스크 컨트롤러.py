@@ -1,70 +1,47 @@
-# 이해 1
-# 전체 작업 소요 시간의 평균이 최소가 되도록
-# 매번 가능한 작업 중 소요 시간이 작은 것을 먼저 수행한다.
-    # 반례가 있다.
-    # [[0, 3], [4, 10], [5, 1], [6, 1]]
-    # 3, 14, 15, 16 == 11.25
-        # 3 + 10 + 10 + 10
-    # 3, 6, 7, 17 == 8.25
-        # 3, 1, 1, 10
-# 끝나는 시간을 기준으로 해야 할 듯하다.
-# 배열을 탐색하여, 원소 별로 끝나는 시간(시작 시간 + 소요 시간)을 구한다.
-# 끝나는 시간이 빠른 것 순서대로 처리한다.
+# 문제 분석
+# jobs에 주어진 모든 작업의, 요청부터 종료까지 소요되는 시간의 평균이, 최소가 되도록 하라
+# jobs의 요소는 [요청 시점, 소요 시간]
 
-# 이해2
-# 이해 1은 틀렸다 !! 정확히는 문제의 조건에 부합하지 않는다.
-# <제한사항>의 마지막 항목: "하드디스크가 작업을 수행하고 있지 않을 때에는 먼저 요청이 들어온 작업부터 처리합니다."
-# 따라서 수행 가능한 작업이 있다면 즉시 실행한다.
-# 수행 가능한 작업이 여러 개가 있다면 소요 시간이 짧은 것을 실행한다.
+# 접근
+# 어떤 조건에서 평균이 최소가 되는지 직관적으로는 모르겠다.
+# 종료 시점(요청 시점 + 소요 시간)이 빠른 순서로 하면 될 것 같은 느낌은 있다.
+# heapify 말고 직접 힙에 넣어주는 방식으로 heap을 생성한다.
+    # 배열을 생성한다. 모든 원소를 heapq.heappush(배열, 인자)로 삽입한다.
+        # 이때 인자를 (합, 요청 시점, 소요 시간으로 한다.)
 
-# 풀이
-# 현재 시간을 표시할 변수 now = 0
-# 총 대기 시간 변수 total_waiting_time = 0
-# 현재 가능한 작업 큐 ready_queue = []
-# 현재 index = 0
-
-# while ready_queue or index < len(jobs):
-    # while now <= jobs[index][0]: # 현재 시간 now보다 작은(실행 가능한) 작업 모두 추가
-        # ready_queue에 추가 (소요 시간, 시작 시간)
-        # index += 1
-    
-    # if ready_queue:
-        # duration, start = heappop()
-        # now += duration
-        # total_wating_time = now - start
+# tot = 0
+# while arr:
+    # time += 1
+    # now = heapq.heappop(arr)
+    # if now[1] <= time: # 현재 시간이 요청 시점을 지나서, 실행이 가능한 상태
+        # time += now[2] # 종료되는 시점
+        # tot += time - now[1] # 총 소요 시간 (종료 시점 - 요청 시점)
     # else:
-        # now = jobs[index][0]
-        
+        # heapq.heappush(arr, now) # 실행이 불가능한 상태이면, 도로 배열에 삽입
 
-# return total_wating_time // len(jobs)
-    
-    
-
-
-
+# return tot / len(jobs)
 
 import heapq
 
 def solution(jobs):
-    jobs.sort()
-    now = 0
-    total_waiting_time = 0
-    index = 0
-    ready_queue = []
-
-    while index < len(jobs) or ready_queue:
-        while index < len(jobs) and jobs[index][0] <= now: # 현재 시간 now보다 작은(실행 가능한) 작업 모두 추가
-            heapq.heappush(ready_queue, (jobs[index][1], jobs[index][0]))
-            index += 1
-
-        if ready_queue:
-            duration, start = heapq.heappop(ready_queue)
-            now += duration
-            total_waiting_time += now - start
+    answer = 0
+    last = -1 # 이전 작업의 종료 시점
+    now = 0 # 현재 시점
+    cnt = 0 # 처리한 작업의 개수
+    h = []
+    
+    while cnt < len(jobs):
+        for job in jobs:
+            if last < job[0] <= now:
+                heapq.heappush(h, (job[1], job[0]))
+        
+        if h:
+            current = heapq.heappop(h)
+            last = now
+            now += current[0] # 완료 시각
+            answer += now - current[1] # 요청 시각
+            cnt += 1 # 완료한 작업 개수 추가
         else:
-            now = jobs[index][0]
-
-    return total_waiting_time // len(jobs)
-
-
-
+            now += 1 # 현재 시점 증가
+    
+    return answer // len(jobs)

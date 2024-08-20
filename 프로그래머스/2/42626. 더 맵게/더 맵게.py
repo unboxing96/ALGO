@@ -1,36 +1,42 @@
-# 이해
-# 최소 힙
-# 값이 작은 2개를 pop()해서, 특정 공식으로 계산된 결과를 push()
-# 최소 값이 K를 넘을 때까지 반복
+# 문제 분석
+# scoville의 모든 요소가 K 이상이 되도록 "섞기" 진행
+# 조건을 만족했을 때까지의 "섞기" 횟수를 return
+# 조건을 만족할 수 없으면 -1 return
 
-# 풀이
-# scoville = heapq.heapify(scoville)
-# cnt = 0
-# while True:
-    # scoville을 정렬하여, [0]번째 원소가 K보다 작으면 (heap은 subscription이 가능한가?)
-        # first = heapq.heappop(scoville)
-        # second = heapq.heappop(scoville)
-        # new = first + (second * 2)
-        # heapq.heappush(scoville, new)
-        # cnt += 1
-    # 작지 않으면 return cnt
-    
+# 접근
+# mixCount = 0 # 섞기 횟수
+# scoville에서 최소 값을 pop()
+    # 해당 값이 K 이상이면 mixCount를 return
+    # 해당 값이 K보다 작으면 추가로 pop()
+        # 2개의 값을 섞는다. a + (b * 2)
+        # 섞은 값을 scoville에 추가한다.
+# scoville의 원소가 더 이상 남아 있지 않다면, -1을 return 한다.
 
 import heapq
 
 def solution(scoville, K):
-    answer = 0
+    mixCount = 0
     heapq.heapify(scoville)
     
-    while len(scoville) >= 2:
-        if scoville[0] < K:
-            first = heapq.heappop(scoville)
-            second = heapq.heappop(scoville)
-            new = first + (second * 2)
-            heapq.heappush(scoville, new)
-            answer += 1
-        else:
-            return answer
-    
-    return answer if scoville[0] >= K else -1
+    while scoville:
+        firstElement = heapq.heappop(scoville)
         
+        if firstElement >= K:
+            return mixCount
+        else:
+            if not scoville:
+                return -1
+            
+            mixCount += 1
+            secondElement = heapq.heappop(scoville)
+            mixedElement = firstElement + (secondElement * 2)
+            heapq.heappush(scoville, mixedElement)
+    
+    return -1
+
+
+
+
+
+
+
