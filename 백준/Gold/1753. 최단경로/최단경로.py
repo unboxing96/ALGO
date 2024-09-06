@@ -7,7 +7,7 @@ visited = [0] * (v + 1)
 graph = [[] for _ in range(v + 1)]
 for i in range(e):
     a, b, c = map(int, input().split())
-    graph[a].append((b, c)) # 노드 번호, 비용
+    graph[a].append((c, b)) # 노드 번호, 비용
 
 def dijkstra(start):
     q = []
@@ -22,7 +22,7 @@ def dijkstra(start):
             continue
         
         # 모든 노드의 인접 노드를 확인하며, 최단 거리 테이블 모두 갱신
-        for next, next_dist in graph[now]:
+        for next_dist, next in graph[now]:
             cost = now_dist + next_dist # now -> next로 거쳐가는 비용이
             if cost < distance[next]: # next에 갱신된 비용보다 작다면
                 distance[next] = cost # 해당 비용으로 갱신
