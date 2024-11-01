@@ -1,6 +1,5 @@
-# GROUP BY가 동시에 되는가? 만약 된다면 해결이다
-# 즉시 해보자
-
+-- 코드를 입력하세요
+# 재구매한 회원 ID와 재구매한 상품 ID
 SELECT USER_ID, PRODUCT_ID
 FROM ONLINE_SALE
 GROUP BY USER_ID, PRODUCT_ID
